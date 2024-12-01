@@ -22,7 +22,7 @@ class VideoCollectionViewController: UICollectionViewController {
             
             static func < (lhs: Section, rhs: Section) -> Bool {
                 switch (lhs, rhs) {
-                case (.recommendation(name: let l, description: _), .recommendation(name: let r, description: _)):
+                case (.recommendation(let l, _), .recommendation(let r, _)):
                     return l < r
                 }
             }
@@ -38,6 +38,14 @@ class VideoCollectionViewController: UICollectionViewController {
     var dataSource: DataSourceType!
     var model = Model()
     var items: [ViewModel.Item] = []
+    
+    enum RecommendationHeader: String {
+        case kind = "RecommendationHeader"
+        
+        var identifier: String {
+            return rawValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +101,16 @@ class VideoCollectionViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
+        let headerRegistration = UICollectionView.SupplementaryRegistration<NamedSectionHeaderView>(elementKind: RecommendationHeader.kind.identifier) { headerView, elementKind, indexPath in
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            if case let .recommendation(name, description) = section {
+                headerView.nameLabel.text = name
+            }
+        }
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+        }
+        
         return dataSource
     }
     
@@ -103,8 +121,12 @@ class VideoCollectionViewController: UICollectionViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: RecommendationHeader.kind.identifier, alignment: .top)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.boundarySupplementaryItems = [sectionHeader]
         
         return UICollectionViewCompositionalLayout(section: section)
     }
