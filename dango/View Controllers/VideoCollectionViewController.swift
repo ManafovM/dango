@@ -10,6 +10,26 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class VideoCollectionViewController: UICollectionViewController {
+    typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item.ID>
+    
+    enum ViewModel {
+        enum Section: Hashable {
+            case featured
+            case recentlyPlayed
+            case genres
+            case tag(_ tag: Tag)
+        }
+        
+        typealias Item = Video
+    }
+    
+    struct Model {
+        var videos = [Video]()
+    }
+    
+    var dataSource: DataSourceType!
+    var model = Model()
+    var items: [ViewModel.Item] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()

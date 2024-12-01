@@ -7,14 +7,22 @@
 
 import Foundation
 
-struct Video: Codable {
+struct Video: Codable, Identifiable {
+    let id: UUID
     let title: String
     let year: Int
     let duration: Int
     let description: String
     let synopsis: String
     let genres: [Genre]
+    let tags: [Tag]
     let cast: [Artist]
     let thumbnailUrl: String
     let videoUrl: String
+}
+
+extension Video: Equatable {
+    static func == (lhs: Video, rhs: Video) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
