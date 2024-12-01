@@ -1,0 +1,574 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		D1B849922CFC0C7D00F9074C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1B849732CFC0C7B00F9074C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1B8497A2CFC0C7B00F9074C;
+			remoteInfo = dango;
+		};
+		D1B8499C2CFC0C7D00F9074C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1B849732CFC0C7B00F9074C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1B8497A2CFC0C7B00F9074C;
+			remoteInfo = dango;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D1B8497B2CFC0C7B00F9074C /* dango.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dango.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1B849912CFC0C7D00F9074C /* dangoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dangoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1B8499B2CFC0C7D00F9074C /* dangoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dangoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D1B849A32CFC0C7D00F9074C /* Exceptions for "dango" folder in "dango" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1B8497A2CFC0C7B00F9074C /* dango */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D1B8497D2CFC0C7B00F9074C /* dango */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D1B849A32CFC0C7D00F9074C /* Exceptions for "dango" folder in "dango" target */,
+			);
+			path = dango;
+			sourceTree = "<group>";
+		};
+		D1B849942CFC0C7D00F9074C /* dangoTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = dangoTests;
+			sourceTree = "<group>";
+		};
+		D1B8499E2CFC0C7D00F9074C /* dangoUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = dangoUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1B849782CFC0C7B00F9074C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B8498E2CFC0C7D00F9074C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B849982CFC0C7D00F9074C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D1B849722CFC0C7B00F9074C = {
+			isa = PBXGroup;
+			children = (
+				D1B8497D2CFC0C7B00F9074C /* dango */,
+				D1B849942CFC0C7D00F9074C /* dangoTests */,
+				D1B8499E2CFC0C7D00F9074C /* dangoUITests */,
+				D1B8497C2CFC0C7B00F9074C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D1B8497C2CFC0C7B00F9074C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1B8497B2CFC0C7B00F9074C /* dango.app */,
+				D1B849912CFC0C7D00F9074C /* dangoTests.xctest */,
+				D1B8499B2CFC0C7D00F9074C /* dangoUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D1B8497A2CFC0C7B00F9074C /* dango */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1B849A42CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dango" */;
+			buildPhases = (
+				D1B849772CFC0C7B00F9074C /* Sources */,
+				D1B849782CFC0C7B00F9074C /* Frameworks */,
+				D1B849792CFC0C7B00F9074C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D1B8497D2CFC0C7B00F9074C /* dango */,
+			);
+			name = dango;
+			packageProductDependencies = (
+			);
+			productName = dango;
+			productReference = D1B8497B2CFC0C7B00F9074C /* dango.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D1B849902CFC0C7D00F9074C /* dangoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1B849A92CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dangoTests" */;
+			buildPhases = (
+				D1B8498D2CFC0C7D00F9074C /* Sources */,
+				D1B8498E2CFC0C7D00F9074C /* Frameworks */,
+				D1B8498F2CFC0C7D00F9074C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1B849932CFC0C7D00F9074C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1B849942CFC0C7D00F9074C /* dangoTests */,
+			);
+			name = dangoTests;
+			packageProductDependencies = (
+			);
+			productName = dangoTests;
+			productReference = D1B849912CFC0C7D00F9074C /* dangoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D1B8499A2CFC0C7D00F9074C /* dangoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1B849AC2CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dangoUITests" */;
+			buildPhases = (
+				D1B849972CFC0C7D00F9074C /* Sources */,
+				D1B849982CFC0C7D00F9074C /* Frameworks */,
+				D1B849992CFC0C7D00F9074C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1B8499D2CFC0C7D00F9074C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1B8499E2CFC0C7D00F9074C /* dangoUITests */,
+			);
+			name = dangoUITests;
+			packageProductDependencies = (
+			);
+			productName = dangoUITests;
+			productReference = D1B8499B2CFC0C7D00F9074C /* dangoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D1B849732CFC0C7B00F9074C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					D1B8497A2CFC0C7B00F9074C = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					D1B849902CFC0C7D00F9074C = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = D1B8497A2CFC0C7B00F9074C;
+					};
+					D1B8499A2CFC0C7D00F9074C = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = D1B8497A2CFC0C7B00F9074C;
+					};
+				};
+			};
+			buildConfigurationList = D1B849762CFC0C7B00F9074C /* Build configuration list for PBXProject "dango" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D1B849722CFC0C7B00F9074C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D1B8497C2CFC0C7B00F9074C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1B8497A2CFC0C7B00F9074C /* dango */,
+				D1B849902CFC0C7D00F9074C /* dangoTests */,
+				D1B8499A2CFC0C7D00F9074C /* dangoUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D1B849792CFC0C7B00F9074C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B8498F2CFC0C7D00F9074C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B849992CFC0C7D00F9074C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D1B849772CFC0C7B00F9074C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B8498D2CFC0C7D00F9074C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1B849972CFC0C7D00F9074C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D1B849932CFC0C7D00F9074C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1B8497A2CFC0C7B00F9074C /* dango */;
+			targetProxy = D1B849922CFC0C7D00F9074C /* PBXContainerItemProxy */;
+		};
+		D1B8499D2CFC0C7D00F9074C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1B8497A2CFC0C7B00F9074C /* dango */;
+			targetProxy = D1B8499C2CFC0C7D00F9074C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D1B849A52CFC0C7D00F9074C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = dango/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dango;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D1B849A62CFC0C7D00F9074C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = dango/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dango;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D1B849A72CFC0C7D00F9074C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D1B849A82CFC0C7D00F9074C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1B849AA2CFC0C7D00F9074C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dangoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dango.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dango";
+			};
+			name = Debug;
+		};
+		D1B849AB2CFC0C7D00F9074C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dangoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/dango.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dango";
+			};
+			name = Release;
+		};
+		D1B849AD2CFC0C7D00F9074C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dangoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = dango;
+			};
+			name = Debug;
+		};
+		D1B849AE2CFC0C7D00F9074C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 724JJXB8E5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.manafov.dangoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = dango;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D1B849762CFC0C7B00F9074C /* Build configuration list for PBXProject "dango" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1B849A72CFC0C7D00F9074C /* Debug */,
+				D1B849A82CFC0C7D00F9074C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1B849A42CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dango" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1B849A52CFC0C7D00F9074C /* Debug */,
+				D1B849A62CFC0C7D00F9074C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1B849A92CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dangoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1B849AA2CFC0C7D00F9074C /* Debug */,
+				D1B849AB2CFC0C7D00F9074C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1B849AC2CFC0C7D00F9074C /* Build configuration list for PBXNativeTarget "dangoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1B849AD2CFC0C7D00F9074C /* Debug */,
+				D1B849AE2CFC0C7D00F9074C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D1B849732CFC0C7B00F9074C /* Project object */;
+}
