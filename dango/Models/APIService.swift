@@ -7,10 +7,20 @@
 
 import Foundation
 
-struct VideoRequest: APIRequest {
-    typealias Response = [String: [Video]]
+struct FeaturedVideosRequest: APIRequest {
+    typealias Response = [Video]
     
-    var tag: String?
+    var path: String { "/videos/featured" }
+}
+
+struct RecentlyPlayedVideosRequest: APIRequest {
+    typealias Response = [Video]
     
-    var path: String { "/videos" }
+    var path: String { "/videos/recently-played" }
+}
+
+struct RecommendationsRequest: APIRequest {
+    typealias Response = [Recommendation]
+    
+    var path: String { "/videos/recommendations" }
 }

@@ -11,24 +11,21 @@ private let reuseIdentifier = "Cell"
 
 class VideoCollectionViewController: UICollectionViewController {
     
-    var videosRequestTask: Task<Void, Never>? = nil
-    deinit { videosRequestTask?.cancel() }
+    var recommendationsRequestTask: Task<Void, Never>? = nil
+    deinit { recommendationsRequestTask?.cancel() }
     
     typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item.ID>
     
     enum ViewModel {
         enum Section: Hashable {
-            case featured
-            case recentlyPlayed
-            case genres
-            case tag(_ tag: String)
+            case recommendation(name: String, description: String)
         }
         
         typealias Item = Video
     }
     
     struct Model {
-        var videosByTag = [String: [Video]]()
+        var recommendations = [Recommendation]()
     }
     
     var dataSource: DataSourceType!
@@ -40,32 +37,23 @@ class VideoCollectionViewController: UICollectionViewController {
     }
     
     func update() {
-        videosRequestTask?.cancel()
-        videosRequestTask = Task {
-            if let videos = try? await VideoRequest().send() {
-                self.model.videosByTag = videos
+        recommendationsRequestTask?.cancel()
+        recommendationsRequestTask = Task {
+            if let recommendations = try? await RecommendationsRequest().send() {
+                self.model.recommendations = recommendations
             } else {
-                self.model.videosByTag = [:]
+                self.model.recommendations = []
             }
             self.updateCollectionView()
             
-            videosRequestTask = nil
+            recommendationsRequestTask = nil
         }
     }
     
     func updateCollectionView() {
-        let itemsBySection = Dictionary(uniqueKeysWithValues: model.videosByTag.map { (tag, videos) in
-            let section: ViewModel.Section
-            
-            switch tag {
-            case "featured":
-                section = .featured
-            case "recentlyPlayed":
-                section = .recentlyPlayed
-            default:
-                section = .tag(tag)
-            }
-            return (section, videos)
+        let itemsBySection = Dictionary(uniqueKeysWithValues: model.recommendations.map { recommendation in
+            let section: ViewModel.Section = .recommendation(name: recommendation.name, description: recommendation.description)
+            return (section, recommendation.videos)
         })
         items = itemsBySection.values.reduce([], +)
         
