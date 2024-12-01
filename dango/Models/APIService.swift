@@ -8,7 +8,9 @@
 import Foundation
 
 struct VideoRequest: APIRequest {
-    typealias Response = [Video]
+    typealias Response = [String: [Video]]
+    
+    var tag: String?
     
     var path: String { "/videos" }
 }

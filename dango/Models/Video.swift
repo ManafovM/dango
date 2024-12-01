@@ -15,7 +15,7 @@ struct Video: Codable, Identifiable {
     let description: String
     let synopsis: String
     let genres: [Genre]
-    let tags: [Tag]
+    let tags: [String]
     let cast: [Artist]
     let thumbnailUrl: String
     let videoUrl: String

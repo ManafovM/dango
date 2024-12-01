@@ -10,6 +10,10 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class VideoCollectionViewController: UICollectionViewController {
+    
+    var videosRequestTask: Task<Void, Never>? = nil
+    deinit { videosRequestTask?.cancel() }
+    
     typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item.ID>
     
     enum ViewModel {
@@ -17,14 +21,14 @@ class VideoCollectionViewController: UICollectionViewController {
             case featured
             case recentlyPlayed
             case genres
-            case tag(_ tag: Tag)
+            case tag(_ tag: String)
         }
         
         typealias Item = Video
     }
     
     struct Model {
-        var videos = [Video]()
+        var videosByTag = [String: [Video]]()
     }
     
     var dataSource: DataSourceType!
@@ -33,28 +37,38 @@ class VideoCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
-    // MARK: UICollectionViewDataSource
-    
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    func update() {
+        videosRequestTask?.cancel()
+        videosRequestTask = Task {
+            if let videos = try? await VideoRequest().send() {
+                self.model.videosByTag = videos
+            } else {
+                self.model.videosByTag = [:]
+            }
+            self.updateCollectionView()
+            
+            videosRequestTask = nil
+        }
     }
     
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+    func updateCollectionView() {
+        let itemsBySection = Dictionary(uniqueKeysWithValues: model.videosByTag.map { (tag, videos) in
+            let section: ViewModel.Section
+            
+            switch tag {
+            case "featured":
+                section = .featured
+            case "recentlyPlayed":
+                section = .recentlyPlayed
+            default:
+                section = .tag(tag)
+            }
+            return (section, videos)
+        })
+        items = itemsBySection.values.reduce([], +)
         
-        // Configure the cell
-        
-        return cell
+        let sectionIDs = itemsBySection.keys
     }
 }
