@@ -17,8 +17,15 @@ class VideoCollectionViewController: UICollectionViewController {
     typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item.ID>
     
     enum ViewModel {
-        enum Section: Hashable {
+        enum Section: Hashable, Comparable {
             case recommendation(name: String, description: String)
+            
+            static func < (lhs: Section, rhs: Section) -> Bool {
+                switch (lhs, rhs) {
+                case (.recommendation(name: let l, description: _), .recommendation(name: let r, description: _)):
+                    return l < r
+                }
+            }
         }
         
         typealias Item = Video
@@ -34,6 +41,16 @@ class VideoCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dataSource = createDataSource()
+        collectionView.dataSource = dataSource
+        collectionView.collectionViewLayout = createLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        update()
     }
     
     func update() {
@@ -57,6 +74,38 @@ class VideoCollectionViewController: UICollectionViewController {
         })
         items = itemsBySection.values.reduce([], +)
         
-        let sectionIDs = itemsBySection.keys
+        let sectionIDs = itemsBySection.keys.sorted()
+        
+        dataSource.applySnapshotUsing(sectionIDs: sectionIDs, itemsBySection: itemsBySection.mapValues({ $0.map(\.id) }))
+    }
+    
+    func createDataSource() -> DataSourceType {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ViewModel.Item.ID> { [weak self] cell, indexPath, itemIdentifier in
+            guard let self, let item = items.first(where: { $0.id == itemIdentifier }) else { return }
+            
+            var content = cell.defaultContentConfiguration()
+            content.text = item.title
+            content.secondaryText = item.description
+            cell.contentConfiguration = content
+        }
+        
+        let dataSource = DataSourceType(collectionView: collectionView) { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        }
+        
+        return dataSource
+    }
+    
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(44))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+        
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
