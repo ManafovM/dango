@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Video {
+struct Video: Codable {
     let title: String
     let year: Int
     let duration: Int
