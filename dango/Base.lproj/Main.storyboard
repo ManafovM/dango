@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -59,13 +60,49 @@
                     <view key="view" contentMode="scaleToFill" id="mne-UB-Any">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BLG-9Z-nod">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="BLG-9Z-nod" secondAttribute="height" multiplier="16:9" id="vbv-2v-NZH"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" role="cancel" translatesAutoresizingMaskIntoConstraints="NO" id="i8p-pi-E5C">
+                                <rect key="frame" x="16" y="12" width="32" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="1pl-iY-TCe"/>
+                                    <constraint firstAttribute="width" constant="32" id="FV2-l3-GIW"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" title="" cornerStyle="capsule">
+                                    <imageReference key="image" image="xmark" catalog="system" symbolScale="small"/>
+                                    <backgroundConfiguration key="background">
+                                        <color key="backgroundColor" red="0.27173943220000002" green="0.27173943220000002" blue="0.27173943220000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="semibold"/>
+                                    <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="closeButtonTapped" destination="Mts-6O-VGg" eventType="touchUpInside" id="egC-9e-nnN"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="shm-hX-po3"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="i8p-pi-E5C" firstAttribute="leading" secondItem="mne-UB-Any" secondAttribute="leading" constant="16" id="2T0-rO-TRS"/>
+                            <constraint firstItem="BLG-9Z-nod" firstAttribute="top" secondItem="mne-UB-Any" secondAttribute="top" id="KHA-sn-fSA"/>
+                            <constraint firstItem="BLG-9Z-nod" firstAttribute="leading" secondItem="shm-hX-po3" secondAttribute="leading" id="MFI-XX-CrU"/>
+                            <constraint firstItem="BLG-9Z-nod" firstAttribute="trailing" secondItem="shm-hX-po3" secondAttribute="trailing" id="hDA-bX-3qz"/>
+                            <constraint firstItem="i8p-pi-E5C" firstAttribute="top" secondItem="mne-UB-Any" secondAttribute="top" constant="12" id="vQJ-rr-qwo"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="topImage" destination="BLG-9Z-nod" id="BB2-1z-gQJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NAT-07-0VG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-909" y="1056"/>
+            <point key="canvasLocation" x="-909.16030534351137" y="1054.9295774647887"/>
         </scene>
         <!--検索-->
         <scene sceneID="bK5-5a-kaY">
@@ -197,6 +234,7 @@
         <image name="books.vertical.fill" catalog="system" width="128" height="110"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="video.fill" catalog="system" width="128" height="81"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

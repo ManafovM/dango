@@ -128,4 +128,16 @@ class VideoCollectionViewController: UICollectionViewController {
         
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath),
+              let item = items.first(where: { $0.id == itemIdentifier }) else { return }
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: VideoDetailsViewController.self))
+        let controller = storyBoard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
+            VideoDetailsViewController(coder: coder, video: item)
+        }
+        
+        present(controller, animated: true, completion: nil)
+    }
 }
