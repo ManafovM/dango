@@ -5,7 +5,7 @@
 //  Created by マナフォフ・マリフ on 2024/12/01.
 //
 
-import Foundation
+import UIKit
 
 struct FeaturedVideosRequest: APIRequest {
     typealias Response = [Video]
@@ -23,4 +23,12 @@ struct RecommendationsRequest: APIRequest {
     typealias Response = [Recommendation]
     
     var path: String { "/api/recommendations" }
+}
+
+struct ImageRequest: APIRequest {
+    typealias Response = UIImage
+    
+    var imagePath: String
+    
+    var path: String { imagePath }
 }

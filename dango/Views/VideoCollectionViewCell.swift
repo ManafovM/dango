@@ -8,9 +8,13 @@
 import UIKit
 
 class VideoCollectionViewCell: UICollectionViewCell {
+    var imageRequestTask: Task<Void, Never>? = nil
+    deinit { imageRequestTask?.cancel() }
+    
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 10.0
+        imageView.clipsToBounds = true
         
         return imageView
     }()
@@ -37,6 +41,11 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(_ video: Video) {
-        imageView.backgroundColor = UIColor.magenta
+        imageRequestTask = Task {
+            if let image = try? await ImageRequest(imagePath: video.thumbnailUrl).send() {
+                self.imageView.image = image
+            }
+            imageRequestTask = nil
+        }
     }
 }
