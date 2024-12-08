@@ -77,7 +77,7 @@ class VideoCollectionViewController: UICollectionViewController {
     
     func updateCollectionView() {
         let itemsBySection = Dictionary(uniqueKeysWithValues: model.recommendations.map { recommendation in
-            let section: ViewModel.Section = .recommendation(name: recommendation.name, description: recommendation.description)
+            let section: ViewModel.Section = .recommendation(name: recommendation.name, description: recommendation.description ?? "")
             return (section, recommendation.videos)
         })
         items = itemsBySection.values.reduce([], +)

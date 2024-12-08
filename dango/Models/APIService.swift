@@ -10,17 +10,17 @@ import Foundation
 struct FeaturedVideosRequest: APIRequest {
     typealias Response = [Video]
     
-    var path: String { "/videos/featured" }
+    var path: String { "/api/videos/featured" }
 }
 
 struct RecentlyPlayedVideosRequest: APIRequest {
     typealias Response = [Video]
     
-    var path: String { "/videos/recently-played" }
+    var path: String { "/api/videos/recently-played" }
 }
 
 struct RecommendationsRequest: APIRequest {
     typealias Response = [Recommendation]
     
-    var path: String { "/videos/recommendations" }
+    var path: String { "/api/recommendations" }
 }

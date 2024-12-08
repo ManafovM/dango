@@ -9,6 +9,6 @@ import Foundation
 
 struct Recommendation: Codable {
     let name: String
-    let description: String
+    let description: String?
     let videos: [Video]
 }

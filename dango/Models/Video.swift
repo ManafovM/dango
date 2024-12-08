@@ -8,14 +8,13 @@
 import Foundation
 
 struct Video: Codable, Identifiable {
-    let id: UUID
+    let id: Int
     let title: String
     let year: Int
     let duration: Int
     let description: String
     let synopsis: String
     let genres: [Genre]
-    let tags: [String]
     let cast: [Artist]
     let thumbnailUrl: String
     let videoUrl: String

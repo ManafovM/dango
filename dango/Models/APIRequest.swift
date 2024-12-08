@@ -17,8 +17,8 @@ protocol APIRequest {
 }
 
 extension APIRequest {
-    var host: String { "localhost" }
-    var port: Int { 8080 }
+    var host: String { "192.168.10.102" }
+    var port: Int { 1337 }
 }
 
 extension APIRequest {
@@ -37,6 +37,8 @@ extension APIRequest {
         components.queryItems = queryItems
         
         var request = URLRequest(url: components.url!)
+        
+        request.setValue("bearer f13e2611ed58e4fc873ed32d6906d7c88b6e5d062d6486902e2aadb0aec0d334dbc5770320bc2a6f77e1e9d5c74e1b4d22141e6a23694711961fc7ed0b3ab3a3f623db6abb47d47f3ddc4f7c0438223c9516a1f1da7959c6b6a414b4d0a6b8c7fe3e9784dd07df6fea992afeeabb021fe35530b4e97ed94ec10322ac7c437dcb", forHTTPHeaderField: "Authorization")
         
         if let data = postData {
             request.httpBody = data
