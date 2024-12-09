@@ -7,9 +7,7 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
-class VideoCollectionViewController: UICollectionViewController {
+class VideoCollectionViewController: BaseCollectionViewController {
     
     var recommendationsRequestTask: Task<Void, Never>? = nil
     deinit { recommendationsRequestTask?.cancel() }

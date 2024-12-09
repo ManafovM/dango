@@ -211,13 +211,12 @@
         <!--Tab Bar Controller-->
         <scene sceneID="2B2-7D-eVx">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="cqc-Rc-PcM" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="cqc-Rc-PcM" customClass="TabBarController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kwG-5Z-XC7">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <tabBarAppearance key="scrollEdgeAppearance"/>
                     </tabBar>
                     <connections>
                         <segue destination="goD-qD-hpe" kind="relationship" relationship="viewControllers" id="Kby-oJ-d3N"/>
