@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Video: Codable, Identifiable {
+struct Video: Codable {
     let id: Int
     let title: String
     let year: Int
@@ -19,6 +19,8 @@ struct Video: Codable, Identifiable {
     let thumbnailUrl: String
     let videoUrl: String
 }
+
+extension Video: Identifiable { }
 
 extension Video: Equatable {
     static func == (lhs: Video, rhs: Video) -> Bool {

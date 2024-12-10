@@ -10,7 +10,7 @@ import UIKit
 struct FeaturedVideosRequest: APIRequest {
     typealias Response = [Video]
     
-    var path: String { "/api/videos/featured" }
+    var path: String { "/api/featured" }
 }
 
 struct RecentlyPlayedVideosRequest: APIRequest {

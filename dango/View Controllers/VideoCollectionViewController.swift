@@ -9,19 +9,28 @@ import UIKit
 
 class VideoCollectionViewController: BaseCollectionViewController {
     
+    var featuredRequestTask: Task<Void, Never>? = nil
     var recommendationsRequestTask: Task<Void, Never>? = nil
-    deinit { recommendationsRequestTask?.cancel() }
+    deinit {
+        featuredRequestTask?.cancel()
+        recommendationsRequestTask?.cancel()
+    }
     
     typealias DataSourceType = UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item.ID>
     
     enum ViewModel {
         enum Section: Hashable, Comparable {
+            case featured
             case recommendation(name: String, description: String)
             
             static func < (lhs: Section, rhs: Section) -> Bool {
                 switch (lhs, rhs) {
                 case (.recommendation(let l, _), .recommendation(let r, _)):
                     return l < r
+                case (.featured, _):
+                    return true
+                case (_, .featured):
+                    return false
                 }
             }
         }
@@ -30,6 +39,7 @@ class VideoCollectionViewController: BaseCollectionViewController {
     }
     
     struct Model {
+        var featured = [Video]()
         var recommendations = [Recommendation]()
     }
     
@@ -60,6 +70,18 @@ class VideoCollectionViewController: BaseCollectionViewController {
     }
     
     func update() {
+        featuredRequestTask?.cancel()
+        featuredRequestTask = Task {
+            if let featured = try? await FeaturedVideosRequest().send() {
+                self.model.featured = featured
+            } else {
+                self.model.featured = []
+            }
+            self.updateCollectionView()
+            
+            featuredRequestTask = nil
+        }
+        
         recommendationsRequestTask?.cancel()
         recommendationsRequestTask = Task {
             if let recommendations = try? await RecommendationsRequest().send() {
@@ -74,10 +96,12 @@ class VideoCollectionViewController: BaseCollectionViewController {
     }
     
     func updateCollectionView() {
-        let itemsBySection = Dictionary(uniqueKeysWithValues: model.recommendations.map { recommendation in
+        var itemsBySection = Dictionary(uniqueKeysWithValues: model.recommendations.map { recommendation in
             let section: ViewModel.Section = .recommendation(name: recommendation.name, description: recommendation.description ?? "")
             return (section, recommendation.videos)
         })
+        itemsBySection[.featured] = model.featured
+        
         items = itemsBySection.values.reduce([], +)
         
         let sectionIDs = itemsBySection.keys.sorted()
@@ -109,22 +133,48 @@ class VideoCollectionViewController: BaseCollectionViewController {
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            let section = self.dataSource.snapshot().sectionIdentifiers[sectionIndex]
+            
+            switch section {
+            case .featured:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5 / 16 * 9))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
+                let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: RecommendationHeader.kind.identifier, alignment: .top)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+                section.interGroupSpacing = 12
+                section.boundarySupplementaryItems = [sectionHeader]
+                
+                return section
+            case .recommendation:
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5 / 16 * 9))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
+                let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: RecommendationHeader.kind.identifier, alignment: .top)
+                
+                let section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+                section.interGroupSpacing = 12
+                section.boundarySupplementaryItems = [sectionHeader]
+                
+                return section
+            }
+        }
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalWidth(0.5 / 16 * 9))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: RecommendationHeader.kind.identifier, alignment: .top)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-        section.interGroupSpacing = 12
-        section.boundarySupplementaryItems = [sectionHeader]
-        
-        return UICollectionViewCompositionalLayout(section: section)
+        return layout
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
