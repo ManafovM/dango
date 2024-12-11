@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VideoDetailsViewController: UIViewController {
+class VideoDetailsViewController: BaseViewController {
     var imageRequestTask: Task<Void, Never>? = nil
     deinit { imageRequestTask?.cancel() }
     

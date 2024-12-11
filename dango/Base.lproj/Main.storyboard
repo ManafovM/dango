@@ -61,7 +61,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BLG-9Z-nod">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BLG-9Z-nod" customClass="FadeEdgeImageView" customModule="dango" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="221"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BLG-9Z-nod" secondAttribute="height" multiplier="16:9" id="vbv-2v-NZH"/>
