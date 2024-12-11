@@ -44,7 +44,7 @@ extension Color {
         case .background:
             instanceColor = UIColor(hexString: "#241E27")
         case .darkBackground:
-            instanceColor = UIColor(hexString: "#342B38")
+            instanceColor = UIColor(hexString: "#1F1A22")
         case .lightText:
             instanceColor = UIColor(hexString: "#EBEBF5")
         case .darkText:
