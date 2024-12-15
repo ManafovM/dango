@@ -8,14 +8,9 @@
 import UIKit
 
 class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
-    var imageRequestTask: Task<Void, Never>? = nil
-    deinit { imageRequestTask?.cancel() }
-    
-    let topImage = FadeEdgeImageView()
-    var topImageHeight: CGFloat!
     let scrollView = UIScrollView()
     let contentView = UIView()
-    let visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThickMaterialDark))
+    let topImageView: VideoDetailsTopImageView
     
     let video: Video!
     
@@ -23,6 +18,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     init?(coder: NSCoder, video: Video) {
         self.video = video
+        self.topImageView = VideoDetailsTopImageView(frame: .zero)
         super.init(coder: coder)
     }
     
@@ -43,6 +39,15 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupVideoInfo()
         
         view.bringSubviewToFront(closeButton)
+    }
+    
+    func setupTopImageView() {
+        let defaultHeight = view.frame.width * 9 / 16
+        topImageView.defaultHeight = defaultHeight
+        topImageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: defaultHeight)
+        topImageView.imageView.frame = topImageView.frame
+        topImageView.loadImage(from: video.thumbnailUrl)
+        view.addSubview(topImageView)
     }
     
     func setupScrollView() {
@@ -72,32 +77,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
-    func setupTopImageView() {
-        topImageHeight = view.frame.width * 9 / 16
-        topImage.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: topImageHeight)
-        topImage.contentMode = .scaleAspectFill
-        topImage.clipsToBounds = true
-        view.addSubview(topImage)
-        
-        loadTopImage()
-        setupBlurEffectView()
-    }
-    
-    func loadTopImage() {
-        imageRequestTask = Task {
-            if let image = try? await ImageRequest(imagePath: video.thumbnailUrl).send() {
-                self.topImage.image = image
-            }
-            imageRequestTask = nil
-        }
-    }
-    
-    func setupBlurEffectView() {
-        visualEffectView.frame = topImage.bounds
-        visualEffectView.alpha = 0
-        topImage.addSubview(visualEffectView)
-    }
-    
     func setupVideoInfo() {
         let stackView: UIStackView = {
             let stackView = UIStackView()
@@ -121,7 +100,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         contentView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topImage.frame.height * 0.95),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topImageView.frame.height * 0.95),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
         ])
@@ -138,32 +117,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-        
-        if yOffset < 0 {
-            topImage.frame = CGRect(
-                x: yOffset / 2,
-                y: yOffset,
-                width: view.frame.width - yOffset,
-                height: topImageHeight - yOffset
-            )
-        } else {
-            let shrinkFactor = max(0, topImageHeight - yOffset)
-            topImage.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: view.frame.width,
-                height: shrinkFactor
-            )
-        }
-        
-        let blurAlpha = min(1.0, yOffset / topImageHeight)
-        visualEffectView.alpha = blurAlpha
-        visualEffectView.frame = CGRect(
-            x: topImage.frame.origin.x,
-            y: topImage.frame.origin.y,
-            width: topImage.frame.width,
-            height: max(topImage.frame.height, 2)
-        )
+        topImageView.updateFrameForOffset(yOffset)
     }
     
     @IBAction func closeButtonTapped() {
