@@ -17,7 +17,7 @@ protocol APIRequest {
 }
 
 extension APIRequest {
-    var host: String { "192.168.10.102" }
+    var host: String { "192.168.10.101" }
     var port: Int { 1337 }
 }
 

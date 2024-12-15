@@ -158,7 +158,12 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         
         let blurAlpha = min(1.0, yOffset / topImageHeight)
         visualEffectView.alpha = blurAlpha
-        visualEffectView.frame = topImage.bounds
+        visualEffectView.frame = CGRect(
+            x: topImage.frame.origin.x,
+            y: topImage.frame.origin.y,
+            width: topImage.frame.width,
+            height: max(topImage.frame.height, 2)
+        )
     }
     
     @IBAction func closeButtonTapped() {
