@@ -45,7 +45,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         let defaultHeight = view.frame.width * 9 / 16
         topImageView.defaultHeight = defaultHeight
         topImageView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: defaultHeight)
-        topImageView.imageView.frame = topImageView.frame
         topImageView.loadImage(from: video.thumbnailUrl)
         view.addSubview(topImageView)
     }
@@ -117,7 +116,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-        topImageView.updateFrameForOffset(yOffset)
+        topImageView.updateFrameForOffset(yOffset, parentFrameWidth: view.frame.width)
     }
     
     @IBAction func closeButtonTapped() {
