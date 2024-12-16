@@ -8,9 +8,9 @@
 import UIKit
 
 class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
-    let scrollView = UIScrollView()
-    let contentView = UIView()
     let topImageView: VideoDetailsTopImageView
+    let scrollView = UIScrollView()
+    let videoDetailsView: VideoDetailsView
     
     let video: Video!
     
@@ -19,6 +19,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     init?(coder: NSCoder, video: Video) {
         self.video = video
         self.topImageView = VideoDetailsTopImageView(frame: .zero)
+        self.videoDetailsView = VideoDetailsView(frame: .zero, video: video)
         super.init(coder: coder)
     }
     
@@ -28,15 +29,13 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
     }
     
     func setupView() {
         setupTopImageView()
         setupScrollView()
-        setupContentView()
-        setupVideoInfo()
+        setupVideoDetailsView()
         
         view.bringSubviewToFront(closeButton)
     }
@@ -50,7 +49,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func setupScrollView() {
-        scrollView.frame = view.bounds
         scrollView.delegate = self
         view.addSubview(scrollView)
         
@@ -63,54 +61,15 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
-    func setupContentView() {
-        scrollView.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+    func setupVideoDetailsView() {
+        scrollView.addSubview(videoDetailsView)
+        videoDetailsView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: view.frame.height * 2) // TODO: Delete this
-        ])
-    }
-    
-    func setupVideoInfo() {
-        let stackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .vertical
-            stackView.spacing = 0
-            stackView.distribution = .fill
-            stackView.alignment = .fill
-            
-            return stackView
-        }()
-        
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = video.title
-            label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-            label.setContentHuggingPriority(.required, for: .vertical)
-            
-            return label
-        }()
-        
-        contentView.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: topImageView.frame.height * 0.95),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16)
-        ])
-        
-        stackView.addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: stackView.topAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor)
+            videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.95),
+            videoDetailsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            videoDetailsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            videoDetailsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            videoDetailsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
     
