@@ -6,14 +6,20 @@
 //
 
 import UIKit
+import AVKit
 
 class VideoDetailsView: UIView {
     let stackView = UIStackView()
     
+    var player: AVPlayer!
+    var playerViewController: AVPlayerViewController!
+    
     init(frame: CGRect, video: Video) {
         super.init(frame: frame)
+        
         setupStackView()
         setupVideoInfo(video: video)
+        setupPlayer(videoUrl: video.videoUrl)
     }
     
     required init?(coder: NSCoder) {
@@ -105,12 +111,31 @@ class VideoDetailsView: UIView {
         // MARK: Play button's on tapped action
         playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
     }
+}
+
+extension VideoDetailsView {
+    func setupPlayer(videoUrl: String) {
+        let videoUrl = URL(string: videoUrl)!
+        player = AVPlayer(url: videoUrl)
+        
+        playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+    }
     
     @objc func playButtonTapped(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1) {
             sender.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
             sender.configuration?.baseBackgroundColor = sender.configuration?.baseBackgroundColor?.withAlphaComponent(0.7)
         } completion: { _ in
+            if let viewController = self.getViewController() {
+                viewController.present(self.playerViewController, animated: true) {
+                    guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
+                    windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
+                    
+                    self.player.play()
+                }
+            }
+            
             UIView.animate(withDuration: 0.2, delay: 0.05, options: [.curveEaseInOut]) {
                 sender.configuration?.baseBackgroundColor = sender.configuration?.baseBackgroundColor?.withAlphaComponent(1.0)
                 sender.transform = .identity
