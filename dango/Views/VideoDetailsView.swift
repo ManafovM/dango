@@ -11,7 +11,8 @@ import AVKit
 class VideoDetailsView: UIView {
     let stackView = UIStackView()
     
-    var player: AVPlayer!
+    var audioPlayer: AVPlayer!
+    var videoPlayer: AVPlayer!
     var playerViewController: AVPlayerViewController!
     
     init(frame: CGRect, video: Video) {
@@ -19,7 +20,8 @@ class VideoDetailsView: UIView {
         
         setupStackView()
         setupVideoInfo(video: video)
-        setupPlayer(videoUrl: video.videoUrl)
+        playAudio(audioUrl: video.audioUrl)
+        setupVideoPlayer(videoUrl: video.videoUrl)
     }
     
     required init?(coder: NSCoder) {
@@ -111,15 +113,39 @@ class VideoDetailsView: UIView {
         // MARK: Play button's on tapped action
         playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
     }
+    
+    deinit {
+        audioPlayer.pause()
+        audioPlayer = nil
+        
+        videoPlayer.pause()
+        videoPlayer = nil
+    }
 }
 
 extension VideoDetailsView {
-    func setupPlayer(videoUrl: String) {
+    func playAudio(audioUrl: String) {
+        guard let audioUrl = URL(string: audioUrl) else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set audio session: \(error)")
+            return
+        }
+        
+        audioPlayer = AVPlayer(url: audioUrl)
+        audioPlayer.volume = 0.3
+        audioPlayer.play()
+    }
+    
+    func setupVideoPlayer(videoUrl: String) {
         let videoUrl = URL(string: videoUrl)!
-        player = AVPlayer(url: videoUrl)
+        videoPlayer = AVPlayer(url: videoUrl)
         
         playerViewController = AVPlayerViewController()
-        playerViewController.player = player
+        playerViewController.player = videoPlayer
     }
     
     @objc func playButtonTapped(_ sender: UIButton) {
@@ -132,7 +158,8 @@ extension VideoDetailsView {
                     guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
                     windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
                     
-                    self.player.play()
+                    self.audioPlayer.pause()
+                    self.videoPlayer.play()
                 }
             }
             

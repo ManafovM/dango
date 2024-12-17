@@ -18,6 +18,7 @@ struct Video: Codable {
     let cast: [Artist]
     let thumbnailUrl: String
     let videoUrl: String
+    let audioUrl: String
 }
 
 extension Video: Identifiable { }
