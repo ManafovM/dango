@@ -11,13 +11,16 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     let topImageView: VideoDetailsTopImageView
     let scrollView = UIScrollView()
     let videoDetailsView: VideoDetailsView
+    var relatedVideosCollectionView: UICollectionView!
     
     let video: Video!
+    var relatedVideos = [Video]()
     
     @IBOutlet weak var closeButton: UIButton!
     
     init?(coder: NSCoder, video: Video) {
         self.video = video
+        self.relatedVideos = [video]
         self.topImageView = VideoDetailsTopImageView(frame: .zero)
         self.videoDetailsView = VideoDetailsView(frame: .zero, video: video)
         super.init(coder: coder)
@@ -36,6 +39,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupTopImageView()
         setupScrollView()
         setupVideoDetailsView()
+        setupRelatedVideosView()
         
         view.bringSubviewToFront(closeButton)
     }
@@ -73,6 +77,15 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
+    func setupRelatedVideosView() {
+        relatedVideosCollectionView = UICollectionView(frame: CGRect(x: 12, y: 600, width: view.frame.width, height: 400), collectionViewLayout: createLayout())
+        relatedVideosCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.identifier)
+        relatedVideosCollectionView.delegate = self
+        relatedVideosCollectionView.dataSource = self
+        
+        scrollView.addSubview(relatedVideosCollectionView)
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
         topImageView.updateFrameForOffset(yOffset, parentFrameWidth: view.frame.width)
@@ -80,5 +93,34 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     @IBAction func closeButtonTapped() {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func createLayout() -> UICollectionViewCompositionalLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .fractionalWidth(0.5 / 16 * 9))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        
+        print("Item Size: \(itemSize), Group Size: \(groupSize)")
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
+        section.interGroupSpacing = 12
+        
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return relatedVideos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.identifier, for: indexPath) as! VideoCollectionViewCell
+        let video = relatedVideos[indexPath.item]
+        cell.configureCell(video)
+        return cell
     }
 }

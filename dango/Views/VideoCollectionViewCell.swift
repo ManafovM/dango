@@ -8,6 +8,8 @@
 import UIKit
 
 class VideoCollectionViewCell: UICollectionViewCell {
+    static let identifier = "VideoCollectionViewCell"
+    
     var imageRequestTask: Task<Void, Never>? = nil
     deinit { imageRequestTask?.cancel() }
     

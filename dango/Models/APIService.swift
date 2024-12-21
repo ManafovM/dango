@@ -25,6 +25,12 @@ struct RecommendationsRequest: APIRequest {
     var path: String { "/api/recommendations" }
 }
 
+struct RelatedVideosRequest: APIRequest {
+    typealias Response = [Video]
+    
+    var path: String { "api/related" }
+}
+
 struct ImageRequest: APIRequest {
     typealias Response = UIImage
     

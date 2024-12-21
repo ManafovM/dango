@@ -136,7 +136,7 @@ extension VideoDetailsView {
         }
         
         audioPlayer = AVPlayer(url: audioUrl)
-        audioPlayer.volume = 0.3
+        audioPlayer.volume = 0.5
         audioPlayer.play()
     }
     
