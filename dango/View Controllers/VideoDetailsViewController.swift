@@ -71,19 +71,28 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         NSLayoutConstraint.activate([
             videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.95),
             videoDetailsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            videoDetailsView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             videoDetailsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             videoDetailsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
     
     func setupRelatedVideosView() {
-        relatedVideosCollectionView = UICollectionView(frame: CGRect(x: 12, y: 600, width: view.frame.width, height: 400), collectionViewLayout: createLayout())
+        relatedVideosCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         relatedVideosCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.identifier)
         relatedVideosCollectionView.delegate = self
         relatedVideosCollectionView.dataSource = self
-        
+        relatedVideosCollectionView.isScrollEnabled = false
         scrollView.addSubview(relatedVideosCollectionView)
+        
+        relatedVideosCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            relatedVideosCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor, constant: 16),
+            relatedVideosCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            relatedVideosCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            relatedVideosCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            relatedVideosCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            relatedVideosCollectionView.heightAnchor.constraint(equalToConstant: 400)
+        ])
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -114,7 +123,7 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return relatedVideos.count
+        return min(relatedVideos.count, 6)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
