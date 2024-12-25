@@ -182,6 +182,9 @@ class VideoCollectionViewController: BaseCollectionViewController {
             VideoDetailsViewController(coder: coder, video: item)
         }
         
-        present(controller, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.isNavigationBarHidden = true
+        
+        present(navigationController, animated: true, completion: nil)
     }
 }

@@ -35,6 +35,14 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupView()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if videoDetailsView.audioPlayer.rate != 0.0 {
+            videoDetailsView.audioPlayer.pause()
+        }
+    }
+    
     func setupView() {
         setupTopImageView()
         setupScrollView()
@@ -131,5 +139,15 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         let video = relatedVideos[indexPath.item]
         cell.configureCell(video)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let item = relatedVideos[indexPath.item]
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: VideoDetailsViewController.self))
+        let controller = storyboard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
+            VideoDetailsViewController(coder: coder, video: item)
+        }
+        
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
