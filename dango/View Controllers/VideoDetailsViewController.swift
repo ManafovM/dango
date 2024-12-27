@@ -80,7 +80,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.addSubview(videoDetailsView)
         videoDetailsView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.95),
+            videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.7),
             videoDetailsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             videoDetailsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             videoDetailsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
@@ -107,7 +107,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yOffset = scrollView.contentOffset.y
+        let yOffset = scrollView.contentOffset.y + (navigationController?.navigationBar.frame.height ?? 56)
         topImageView.updateFrameForOffset(yOffset, parentFrameWidth: view.frame.width)
     }
 }
