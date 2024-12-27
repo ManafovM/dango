@@ -183,7 +183,7 @@ class VideoCollectionViewController: BaseCollectionViewController {
         }
         
         let navigationController = UINavigationController(rootViewController: controller)
-        navigationController.isNavigationBarHidden = true
+        navigationController.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(systemItem: .close, primaryAction: UIAction { _ in controller.dismiss(animated: true) })
         
         present(navigationController, animated: true, completion: nil)
     }

@@ -16,8 +16,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     let video: Video!
     var relatedVideos = [Video]()
     
-    @IBOutlet weak var closeButton: UIButton!
-    
     init?(coder: NSCoder, video: Video) {
         self.video = video
         self.relatedVideos = [video]
@@ -48,8 +46,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupScrollView()
         setupVideoDetailsView()
         setupRelatedVideosView()
-        
-        view.bringSubviewToFront(closeButton)
     }
     
     func setupTopImageView() {
@@ -107,10 +103,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         let yOffset = scrollView.contentOffset.y
         topImageView.updateFrameForOffset(yOffset, parentFrameWidth: view.frame.width)
     }
-    
-    @IBAction func closeButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
-    }
 }
 
 extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -120,8 +112,6 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .fractionalWidth(0.5 / 16 * 9))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
-        
-        print("Item Size: \(itemSize), Group Size: \(groupSize)")
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)

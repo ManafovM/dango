@@ -75,9 +75,6 @@
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" weight="semibold"/>
                                     <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="closeButtonTapped" destination="Mts-6O-VGg" eventType="touchUpInside" id="egC-9e-nnN"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="shm-hX-po3"/>
@@ -86,10 +83,12 @@
                             <constraint firstItem="i8p-pi-E5C" firstAttribute="leading" secondItem="mne-UB-Any" secondAttribute="leading" constant="16" id="2T0-rO-TRS"/>
                             <constraint firstItem="i8p-pi-E5C" firstAttribute="top" secondItem="mne-UB-Any" secondAttribute="top" constant="12" id="vQJ-rr-qwo"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="i8p-pi-E5C"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <connections>
-                        <outlet property="closeButton" destination="i8p-pi-E5C" id="9vP-EM-OS5"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NAT-07-0VG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
