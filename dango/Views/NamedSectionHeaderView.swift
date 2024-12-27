@@ -8,6 +8,8 @@
 import UIKit
 
 class NamedSectionHeaderView: UICollectionReusableView {
+    static let identifier = "NamedSectionHeaderView"
+    
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label

@@ -90,6 +90,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     func setupRelatedVideosView() {
         relatedVideosCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         relatedVideosCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.identifier)
+        relatedVideosCollectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
         relatedVideosCollectionView.delegate = self
         relatedVideosCollectionView.dataSource = self
         relatedVideosCollectionView.isScrollEnabled = false
@@ -97,7 +98,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         
         relatedVideosCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            relatedVideosCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor, constant: 16),
+            relatedVideosCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor),
             relatedVideosCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             relatedVideosCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             relatedVideosCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
@@ -120,11 +121,19 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .fractionalWidth(0.5 / 16 * 9))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 12, trailing: 16)
         section.interGroupSpacing = 12
+        section.boundarySupplementaryItems = [sectionHeader]
         
         return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -146,5 +155,11 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         }
         
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier, for: indexPath) as! NamedSectionHeaderView
+        header.nameLabel.text = "こちらもオススメ"
+        return header
     }
 }

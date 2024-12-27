@@ -86,9 +86,7 @@ class VideoDetailsView: UIView {
         stackView.addArrangedSubview(playButton)
         
         // MARK: Synopsis label setup
-        let divider = UIView()
-        divider.backgroundColor = .lightGray
-        divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
+        let divider = createDivider()
         stackView.addArrangedSubview(divider)
         
         let synopsisHeaderLabel = UILabel()
@@ -101,6 +99,9 @@ class VideoDetailsView: UIView {
         synopsis.numberOfLines = 0
         synopsis.font = UIFont.systemFont(ofSize: 16, weight: .light)
         stackView.addArrangedSubview(synopsis)
+
+        let divider2 = createDivider()
+        stackView.addArrangedSubview(divider2)
         
         // MARK: Setup content insets for play button
         playButton.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +113,13 @@ class VideoDetailsView: UIView {
         
         // MARK: Play button's on tapped action
         playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+    }
+    
+    func createDivider() -> UIView {
+        let divider = UIView()
+        divider.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
+        return divider
     }
     
     deinit {
