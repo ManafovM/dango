@@ -42,10 +42,17 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func setupView() {
+        setupBackBarButton()
         setupTopImageView()
         setupScrollView()
         setupVideoDetailsView()
         setupRelatedVideosView()
+    }
+    
+    func setupBackBarButton() {
+        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        backBarButton.tintColor = .white
+        navigationItem.backBarButtonItem = backBarButton
     }
     
     func setupTopImageView() {

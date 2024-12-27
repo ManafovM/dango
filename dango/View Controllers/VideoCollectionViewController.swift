@@ -8,6 +8,7 @@
 import UIKit
 
 class VideoCollectionViewController: BaseCollectionViewController {
+    var videoDetailsViewController: UIViewController!
     
     var featuredRequestTask: Task<Void, Never>? = nil
     var recommendationsRequestTask: Task<Void, Never>? = nil
@@ -173,18 +174,39 @@ class VideoCollectionViewController: BaseCollectionViewController {
         return layout
     }
     
+    func createCloseButton() -> UIBarButtonItem {
+        let closeButton = UIButton(type: .custom)
+        closeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        let xmark = UIImage(systemName: "xmark")
+        let smallXmark = xmark?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .small))
+        closeButton.setImage(smallXmark, for: .normal)
+        
+        closeButton.tintColor = .white
+        closeButton.backgroundColor = .systemGray4
+        closeButton.layer.cornerRadius = 15
+        
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        return UIBarButtonItem(customView: closeButton)
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath),
               let item = items.first(where: { $0.id == itemIdentifier }) else { return }
         
         let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: VideoDetailsViewController.self))
-        let controller = storyBoard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
+        videoDetailsViewController = storyBoard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
             VideoDetailsViewController(coder: coder, video: item)
         }
         
-        let navigationController = UINavigationController(rootViewController: controller)
-        navigationController.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(systemItem: .close, primaryAction: UIAction { _ in controller.dismiss(animated: true) })
+        let navigationController = UINavigationController(rootViewController: videoDetailsViewController)
+        navigationController.navigationBar.topItem?.leftBarButtonItem = createCloseButton()
         
         present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc
+    func closeButtonTapped() {
+        videoDetailsViewController.dismiss(animated: true)
     }
 }
