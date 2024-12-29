@@ -94,6 +94,31 @@
             </objects>
             <point key="canvasLocation" x="-909.16030534351137" y="1054.9295774647887"/>
         </scene>
+        <!--Cast Collection View Controller-->
+        <scene sceneID="tv6-ZL-MPk">
+            <objects>
+                <collectionViewController storyboardIdentifier="CastCollectionViewController" id="bZR-5j-Wc4" customClass="CastCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="WRA-M1-V1V">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8tY-Cq-Va0">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                        <connections>
+                            <outlet property="dataSource" destination="bZR-5j-Wc4" id="22L-YE-ZsT"/>
+                            <outlet property="delegate" destination="bZR-5j-Wc4" id="Loq-wz-LZH"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vzk-Ar-Gn7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-909" y="1739"/>
+        </scene>
         <!--検索-->
         <scene sceneID="bK5-5a-kaY">
             <objects>

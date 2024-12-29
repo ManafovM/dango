@@ -11,6 +11,8 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     let topImageView: VideoDetailsTopImageView
     let scrollView = UIScrollView()
     let videoDetailsView: VideoDetailsView
+    var castCollectionViewController: CastCollectionViewController!
+    var castCollectionView: UICollectionView!
     var relatedVideosCollectionView: UICollectionView!
     
     let video: Video!
@@ -46,6 +48,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupTopImageView()
         setupScrollView()
         setupVideoDetailsView()
+        setupCastCollectionView()
         setupRelatedVideosView()
     }
     
@@ -87,8 +90,29 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
+    func setupCastCollectionView() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: CastCollectionViewController.self))
+        castCollectionViewController = storyBoard.instantiateViewController(identifier: "CastCollectionViewController") { coder in
+            CastCollectionViewController(coder: coder, cast: self.video.cast)
+        }
+        
+        castCollectionView = castCollectionViewController.collectionView
+        castCollectionView.isScrollEnabled = false
+        scrollView.addSubview(castCollectionView)
+        
+        castCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            castCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor),
+            castCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            castCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            castCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            castCollectionView.heightAnchor.constraint(equalToConstant: CGFloat(self.video.cast.count * 44))
+        ])
+    }
+    
     func setupRelatedVideosView() {
         relatedVideosCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        relatedVideosCollectionView.backgroundColor = Color.darkBackground.value
         relatedVideosCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.identifier)
         relatedVideosCollectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
         relatedVideosCollectionView.delegate = self
@@ -98,7 +122,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         
         relatedVideosCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            relatedVideosCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor),
+            relatedVideosCollectionView.topAnchor.constraint(equalTo: castCollectionView.bottomAnchor),
             relatedVideosCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             relatedVideosCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             relatedVideosCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
