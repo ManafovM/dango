@@ -12,9 +12,12 @@ class CastCollectionViewController: UICollectionViewController {
     
     let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Artist> { cell, indexPath, item in
         var config = cell.defaultContentConfiguration()
-        config.text = item.role
-        config.secondaryText = item.name
-        config.prefersSideBySideTextAndSecondaryText = true
+        
+        let attributedText = NSMutableAttributedString(string: item.role)
+        attributedText.append(NSAttributedString(string: "                              "))
+        attributedText.append(NSAttributedString(string: item.name))
+        config.attributedText = attributedText
+        config.textProperties.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         cell.contentConfiguration = config
         
         var backgroundConfig = UIBackgroundConfiguration.listCell()
