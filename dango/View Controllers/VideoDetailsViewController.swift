@@ -106,7 +106,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
             castCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             castCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             castCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            castCollectionView.heightAnchor.constraint(equalToConstant: CGFloat(self.video.cast.count * 44))
+            castCollectionView.heightAnchor.constraint(equalToConstant: CGFloat(self.video.cast.count * 36 + (self.video.cast.count - 1) * 6))
         ])
     }
     
@@ -122,7 +122,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         
         relatedVideosCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            relatedVideosCollectionView.topAnchor.constraint(equalTo: castCollectionView.bottomAnchor),
+            relatedVideosCollectionView.topAnchor.constraint(equalTo: castCollectionView.bottomAnchor, constant: 16),
             relatedVideosCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             relatedVideosCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             relatedVideosCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
