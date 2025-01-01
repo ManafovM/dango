@@ -106,7 +106,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
             castCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             castCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             castCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            castCollectionView.heightAnchor.constraint(equalToConstant: CGFloat(self.video.cast.count * 36 + (self.video.cast.count - 1) * 6))
+            castCollectionView.heightAnchor.constraint(equalToConstant: calculateHeightOfCastCollectionView())
         ])
     }
     
@@ -134,6 +134,14 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y + (navigationController?.navigationBar.frame.height ?? 56)
         topImageView.updateFrameForOffset(yOffset, parentFrameWidth: view.frame.width)
+    }
+    
+    func calculateHeightOfCastCollectionView() -> CGFloat {
+        let cellHeight = 36
+        let castCount = self.video.cast.count
+        let spacing = 6
+        let headerHeight = 36
+        return CGFloat(castCount * cellHeight + (castCount - 1) * spacing + headerHeight)
     }
 }
 
