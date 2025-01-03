@@ -49,6 +49,7 @@ class VideoDetailsView: UIView {
         let titleLabel = UILabel()
         titleLabel.text = video.title
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
+        titleLabel.numberOfLines = 0
         stackView.addArrangedSubview(titleLabel)
         
         // MARK: Year label setup
