@@ -7,6 +7,16 @@
 
 import UIKit
 
+struct VideoByIdRequest: APIRequest {
+    typealias Response = [Video]
+    
+    var path: String { "/api/videos" }
+    var id: Int
+    var queryItems: [URLQueryItem]? {
+        [URLQueryItem(name: "filters[id][$eq]", value: "\(id)")]
+    }
+}
+
 struct FeaturedVideosRequest: APIRequest {
     typealias Response = [Video]
     

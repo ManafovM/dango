@@ -8,6 +8,9 @@
 import UIKit
 
 class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
+    var videoRequestTask: Task<Void, Never>? = nil
+    deinit { videoRequestTask?.cancel() }
+    
     let topImageView: VideoDetailsTopImageView
     let scrollView = UIScrollView()
     let videoDetailsView: VideoDetailsView
@@ -20,7 +23,6 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     init?(coder: NSCoder, video: Video) {
         self.video = video
-        self.relatedVideos = [video]
         self.topImageView = VideoDetailsTopImageView(frame: .zero)
         self.videoDetailsView = VideoDetailsView(frame: .zero, video: video)
         super.init(coder: coder)
@@ -33,6 +35,11 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        update()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -193,5 +200,17 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier, for: indexPath) as! NamedSectionHeaderView
         header.nameLabel.text = "こちらもオススメ"
         return header
+    }
+    
+    func update() {
+        videoRequestTask?.cancel()
+        videoRequestTask = Task {
+            if let video = try? await VideoByIdRequest(id: video.id).send() {
+                self.relatedVideos = video[0].relatedVideos ?? []
+            }
+            self.relatedVideosCollectionView.reloadSections(IndexSet(integer: 0))
+            
+            videoRequestTask = nil
+        }
     }
 }

@@ -16,6 +16,7 @@ struct Video: Codable {
     let synopsis: String
     let genres: [Genre]
     let cast: [Artist]
+    let relatedVideos: [Video]?
     let thumbnailUrl: String
     let videoUrl: String
     let audioUrl: String
