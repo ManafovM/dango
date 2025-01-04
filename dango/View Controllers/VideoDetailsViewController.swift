@@ -35,11 +35,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        update()
+        fetchRelatedVideos()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -157,8 +153,9 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.92), heightDimension: .fractionalWidth(0.5 / 16 * 9))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(0.5 / 16 * 9))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 2)
+        group.interItemSpacing = NSCollectionLayoutSpacing.fixed(12)
         
         let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(36))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
@@ -202,7 +199,7 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         return header
     }
     
-    func update() {
+    func fetchRelatedVideos() {
         videoRequestTask?.cancel()
         videoRequestTask = Task {
             if let video = try? await VideoByIdRequest(id: video.id).send() {
