@@ -17,6 +17,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     var castCollectionViewController: CastCollectionViewController!
     var castCollectionView: UICollectionView!
     var relatedVideosCollectionView: UICollectionView!
+    var relatedVideosHeightConstraint: NSLayoutConstraint!
     
     let video: Video!
     var relatedVideos = [Video]()
@@ -124,13 +125,14 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.addSubview(relatedVideosCollectionView)
         
         relatedVideosCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        relatedVideosHeightConstraint = relatedVideosCollectionView.heightAnchor.constraint(equalToConstant: calculateHeightOfRelatedVideosCollectionView())
         NSLayoutConstraint.activate([
             relatedVideosCollectionView.topAnchor.constraint(equalTo: castCollectionView.bottomAnchor, constant: 16),
             relatedVideosCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             relatedVideosCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             relatedVideosCollectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             relatedVideosCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            relatedVideosCollectionView.heightAnchor.constraint(equalToConstant: 400)
+            relatedVideosHeightConstraint
         ])
     }
     
@@ -141,10 +143,18 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     func calculateHeightOfCastCollectionView() -> CGFloat {
         let cellHeight = 36
-        let castCount = self.video.cast.count
+        let castCount = video.cast.count
         let spacing = 6
         let headerHeight = 36
         return CGFloat(castCount * cellHeight + (castCount - 1) * spacing + headerHeight)
+    }
+    
+    func calculateHeightOfRelatedVideosCollectionView() -> CGFloat {
+        let cellHeight = Int(view.frame.width * 0.5 / 16 * 9)
+        let relatedVideosCount = Int(ceil(Double(relatedVideos.count) / 2))
+        let spacing = 12
+        let headerHeight = 36
+        return CGFloat(relatedVideosCount * cellHeight + (relatedVideosCount - 1) * spacing + headerHeight)
     }
 }
 
@@ -206,6 +216,7 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
                 self.relatedVideos = video[0].relatedVideos ?? []
             }
             self.relatedVideosCollectionView.reloadSections(IndexSet(integer: 0))
+            self.relatedVideosHeightConstraint.constant = calculateHeightOfRelatedVideosCollectionView()
             
             videoRequestTask = nil
         }
