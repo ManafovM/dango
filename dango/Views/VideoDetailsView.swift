@@ -86,6 +86,23 @@ class VideoDetailsView: UIView {
         playButton.configuration = config
         stackView.addArrangedSubview(playButton)
         
+        // MARK: Episodes button setup
+        let episodesButton = UIButton(type: .system)
+        let episodes = video.episodes
+        if !episodes.isEmpty {
+            var config2 = UIButton.Configuration.filled()
+            config2.title = "エピゾードを選択(全\(episodes.count)話)"
+            config2.image = UIImage(systemName: "rectangle.stack")
+            config2.imagePadding = 8.0
+            config2.baseForegroundColor = .white
+            config2.baseBackgroundColor = Color.background.value
+            config2.cornerStyle = .medium
+            config2.background.strokeColor = .white
+            config2.background.strokeWidth = 1
+            episodesButton.configuration = config2
+            stackView.addArrangedSubview(episodesButton)
+        }
+        
         // MARK: Synopsis label setup
         let divider = createDivider()
         stackView.addArrangedSubview(divider)
@@ -104,13 +121,25 @@ class VideoDetailsView: UIView {
         let divider2 = createDivider()
         stackView.addArrangedSubview(divider2)
         
-        // MARK: Setup content insets for play button
-        playButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            playButton.heightAnchor.constraint(equalToConstant: 44),
-            playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
-            playButton.bottomAnchor.constraint(equalTo: divider.topAnchor, constant: -32)
-        ])
+        if episodes.isEmpty {
+            // MARK: Setup content insets for play button
+            playButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                playButton.heightAnchor.constraint(equalToConstant: 44),
+                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
+                playButton.bottomAnchor.constraint(equalTo: divider.topAnchor, constant: -32)
+            ])
+        } else {
+            // MARK: Setup content insets for play button and episodes button
+            playButton.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                playButton.heightAnchor.constraint(equalToConstant: 44),
+                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
+                episodesButton.heightAnchor.constraint(equalToConstant: 44),
+                episodesButton.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12),
+                episodesButton.bottomAnchor.constraint(equalTo: divider.topAnchor, constant: -32)
+            ])
+        }
         
         // MARK: Play button's on tapped action
         playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
