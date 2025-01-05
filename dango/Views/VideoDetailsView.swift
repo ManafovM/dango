@@ -9,6 +9,8 @@ import UIKit
 import AVKit
 
 class VideoDetailsView: UIView {
+    let video: Video
+    
     let stackView = UIStackView()
     
     var audioPlayer: AVPlayer!
@@ -16,10 +18,11 @@ class VideoDetailsView: UIView {
     var playerViewController: AVPlayerViewController!
     
     init(frame: CGRect, video: Video) {
+        self.video = video
         super.init(frame: frame)
         
         setupStackView()
-        setupVideoInfo(video: video)
+        setupVideoInfo()
         playAudio(audioUrl: video.audioUrl)
         setupVideoPlayer(videoUrl: video.videoUrl)
     }
@@ -44,7 +47,7 @@ class VideoDetailsView: UIView {
         ])
     }
     
-    func setupVideoInfo(video: Video) {
+    func setupVideoInfo() {
         // MARK: Title label setup
         let titleLabel = UILabel()
         titleLabel.text = video.title
@@ -101,6 +104,8 @@ class VideoDetailsView: UIView {
             config2.background.strokeWidth = 1
             episodesButton.configuration = config2
             stackView.addArrangedSubview(episodesButton)
+            
+            episodesButton.addTarget(self, action: #selector(episodesButtonTapped), for: .touchUpInside)
         }
         
         // MARK: Synopsis label setup
@@ -206,5 +211,14 @@ extension VideoDetailsView {
                 sender.transform = .identity
             }
         }
+    }
+    
+    @objc func episodesButtonTapped() {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: EpisodeCollectionViewController.self))
+        let controller = storyboard.instantiateViewController(identifier: "EpisodeCollectionViewController") { coder in
+            EpisodeCollectionViewController(coder: coder, episodes: self.video.episodes)
+        }
+        
+        self.getViewController()?.navigationController?.pushViewController(controller, animated: true)
     }
 }
