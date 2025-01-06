@@ -24,3 +24,9 @@ extension Episode: Equatable {
         return lhs.id == rhs.id
     }
 }
+
+extension Episode: Comparable {
+    static func < (lhs: Episode, rhs: Episode) -> Bool {
+        return lhs.number < rhs.number
+    }
+}
