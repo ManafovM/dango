@@ -219,6 +219,9 @@ extension VideoDetailsView {
             EpisodeCollectionViewController(coder: coder, episodes: self.video.episodes)
         }
         
-        self.getViewController()?.navigationController?.pushViewController(controller, animated: true)
+        if let viewController = self.getViewController(),
+           let navigationController = viewController.navigationController {
+            navigationController.pushViewController(controller, animated: true)
+        }
     }
 }

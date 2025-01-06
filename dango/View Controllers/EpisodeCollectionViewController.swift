@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import AVKit
 
 class EpisodeCollectionViewController: UICollectionViewController {
     let episodes: [Episode]!
+    var videoPlayer: AVPlayer!
+    var playerViewController = AVPlayerViewController()
     
     init?(coder: NSCoder, episodes: [Episode]) {
         self.episodes = episodes
@@ -36,6 +39,12 @@ class EpisodeCollectionViewController: UICollectionViewController {
         let section = NSCollectionLayoutSection(group: group)
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    func setupVideoPlayer(videoUrl: String) {
+        let videoUrl = URL(string: videoUrl)!
+        videoPlayer = AVPlayer(url: videoUrl)
+        playerViewController.player = videoPlayer
+    }
 
     // MARK: UICollectionViewDataSource
 
@@ -54,5 +63,16 @@ class EpisodeCollectionViewController: UICollectionViewController {
         cell.configureCell(item)
     
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let episode = episodes[indexPath.item]
+        setupVideoPlayer(videoUrl: episode.videoUrl)
+        
+        present(self.playerViewController, animated: true) {
+            guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
+            self.videoPlayer.play()
+        }
     }
 }
