@@ -218,6 +218,7 @@ extension VideoDetailsView {
         let controller = storyboard.instantiateViewController(identifier: "EpisodeCollectionViewController") { coder in
             EpisodeCollectionViewController(coder: coder, episodes: self.video.episodes)
         }
+        controller.title = video.title
         
         if let viewController = self.getViewController(),
            let navigationController = viewController.navigationController {

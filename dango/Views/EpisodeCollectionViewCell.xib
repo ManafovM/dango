@@ -47,6 +47,13 @@
                             <color key="baseBackgroundColor" white="0.33333333329999998" alpha="0.79700434602649006" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </buttonConfiguration>
                     </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hrA-H5-vlV" userLabel="Separator">
+                        <rect key="frame" x="16" y="124.66666666666667" width="368" height="0.3333333333333286"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="4Eu-dA-8mO"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
@@ -55,8 +62,11 @@
                 <constraint firstItem="Nbk-qG-uxq" firstAttribute="leading" secondItem="Rdd-op-5W7" secondAttribute="trailing" constant="8" id="CnH-Sv-tFq"/>
                 <constraint firstItem="Rdd-op-5W7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="FDg-Wn-JXE"/>
                 <constraint firstItem="DqP-qY-8hc" firstAttribute="leading" secondItem="Rdd-op-5W7" secondAttribute="trailing" constant="8" id="Mzo-jj-68f"/>
+                <constraint firstItem="hrA-H5-vlV" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="RQu-qh-3U0"/>
                 <constraint firstAttribute="bottom" secondItem="Rdd-op-5W7" secondAttribute="bottom" constant="16" id="XHi-ZS-P5n"/>
                 <constraint firstAttribute="trailing" secondItem="Nbk-qG-uxq" secondAttribute="trailing" constant="16" id="c2a-ZZ-6Eu"/>
+                <constraint firstAttribute="trailing" secondItem="hrA-H5-vlV" secondAttribute="trailing" constant="16" id="cn9-EH-h0Y"/>
+                <constraint firstAttribute="bottom" secondItem="hrA-H5-vlV" secondAttribute="bottom" id="dsv-VY-JwY"/>
                 <constraint firstAttribute="trailing" secondItem="DqP-qY-8hc" secondAttribute="trailing" constant="16" id="kRr-zL-a0V"/>
                 <constraint firstItem="fsc-Lv-XHK" firstAttribute="centerY" secondItem="Rdd-op-5W7" secondAttribute="centerY" id="ms8-d4-rBl"/>
                 <constraint firstItem="Rdd-op-5W7" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="p7M-g3-n5S"/>
