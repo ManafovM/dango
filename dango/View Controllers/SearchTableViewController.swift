@@ -23,7 +23,7 @@ class SearchTableViewController: BaseTableViewController {
         if searchTerm == "すべての作品" {
             controller = AllVideosCollectionViewController()
         } else {
-            controller = GenreSearchResultsCollectionViewController()
+            controller = TagSearchResultsCollectionViewController()
         }
         
         controller.title = searchTerm

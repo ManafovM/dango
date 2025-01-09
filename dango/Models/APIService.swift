@@ -45,13 +45,13 @@ struct SearchRequest: APIRequest {
     }
 }
 
-struct GenreSearchRequest: APIRequest {
+struct TagSearchRequest: APIRequest {
     typealias Response = [Video]
     
     var path: String { "/api/videos" }
     var searchTerm: String
     var queryItems: [URLQueryItem]? {
-        [URLQueryItem(name: "filters[genres][name][$eq]", value: searchTerm)]
+        [URLQueryItem(name: "filters[tags][name][$eq]", value: searchTerm)]
     }
 }
 
