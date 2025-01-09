@@ -55,16 +55,10 @@ class SearchResultsCollectionViewController: BaseCollectionViewController {
         collectionView.dataSource = dataSource
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        update()
-    }
-    
-    func update() {
+    func search(for searchTerm: String) {
         searchRequestTask?.cancel()
         searchRequestTask = Task {
-            if let videos = try? await SearchRequest().send() {
+            if let videos = try? await SearchRequest(searchTerm: searchTerm).send() {
                 self.model.videos = videos
             } else {
                 self.model.videos = []

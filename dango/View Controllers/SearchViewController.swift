@@ -15,18 +15,40 @@ class SearchViewController: BaseViewController {
 
         setupSearchController()
     }
-}
-
-extension SearchViewController: UISearchResultsUpdating {
+    
     func setupSearchController() {
         navigationItem.searchController = searchController
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "作品名で検索"
         navigationItem.hidesSearchBarWhenScrolling = false
     }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchTerm = searchController.searchBar.text,
+              !searchTerm.isEmpty else { return }
+        
+        if let resultsController = searchController.searchResultsController as? SearchResultsCollectionViewController {
+            resultsController.search(for: searchTerm)
+        }
+    }
     
-    func updateSearchResults(for searchController: UISearchController) {
-        // 検査結果更新
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        resetSearchResults()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let searchTerm = searchController.searchBar.text,
+           searchTerm.isEmpty {
+            resetSearchResults()
+        }
+    }
+    
+    func resetSearchResults() {
+        if let resultsController = searchController.searchResultsController as? SearchResultsCollectionViewController {
+            resultsController.dataSource.apply(NSDiffableDataSourceSnapshot())
+        }
     }
 }

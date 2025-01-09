@@ -39,6 +39,10 @@ struct SearchRequest: APIRequest {
     typealias Response = [Video]
     
     var path: String { "/api/videos" }
+    var searchTerm: String
+    var queryItems: [URLQueryItem]? {
+        [URLQueryItem(name: "filters[title][$contains]", value: searchTerm)]
+    }
 }
 
 struct ImageRequest: APIRequest {
