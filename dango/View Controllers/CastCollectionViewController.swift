@@ -40,10 +40,10 @@ class CastCollectionViewController: BaseCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
-        collectionView.setCollectionViewLayout(generateLayout(), animated: true)
+        collectionView.setCollectionViewLayout(createLayout(), animated: true)
     }
     
-    func generateLayout() -> UICollectionViewLayout {
+    func createLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         

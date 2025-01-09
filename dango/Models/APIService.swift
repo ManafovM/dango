@@ -35,10 +35,10 @@ struct RecommendationsRequest: APIRequest {
     var path: String { "/api/recommendations" }
 }
 
-struct RelatedVideosRequest: APIRequest {
+struct SearchRequest: APIRequest {
     typealias Response = [Video]
     
-    var path: String { "api/related" }
+    var path: String { "/api/videos" }
 }
 
 struct ImageRequest: APIRequest {

@@ -25,10 +25,10 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(UINib(nibName: EpisodeCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: EpisodeCollectionViewCell.identifier)
-        collectionView.setCollectionViewLayout(generateLayout(), animated: true)
+        collectionView.setCollectionViewLayout(createLayout(), animated: true)
     }
     
-    func generateLayout() -> UICollectionViewLayout {
+    func createLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         

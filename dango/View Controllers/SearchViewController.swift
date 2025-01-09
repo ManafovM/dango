@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchViewController: BaseViewController {
-    let searchController = UISearchController()
+    let searchController = UISearchController(searchResultsController: SearchResultsCollectionViewController())
 
     override func viewDidLoad() {
         super.viewDidLoad()
