@@ -45,6 +45,22 @@ struct SearchRequest: APIRequest {
     }
 }
 
+struct GenreSearchRequest: APIRequest {
+    typealias Response = [Video]
+    
+    var path: String { "/api/videos" }
+    var searchTerm: String
+    var queryItems: [URLQueryItem]? {
+        [URLQueryItem(name: "filters[genres][name][$eq]", value: searchTerm)]
+    }
+}
+
+struct AllVideosRequest: APIRequest {
+    typealias Response = [Video]
+    
+    var path: String { "/api/videos" }
+}
+
 struct ImageRequest: APIRequest {
     typealias Response = UIImage
     
