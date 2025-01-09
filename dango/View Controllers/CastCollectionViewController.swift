@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CastCollectionViewController: UICollectionViewController {
+class CastCollectionViewController: BaseCollectionViewController {
     let cast: [Artist]!
     
     let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Artist> { cell, indexPath, item in
@@ -41,7 +41,6 @@ class CastCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         collectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
         collectionView.setCollectionViewLayout(generateLayout(), animated: true)
-        collectionView.backgroundColor = Color.darkBackground.value
     }
     
     func generateLayout() -> UICollectionViewLayout {

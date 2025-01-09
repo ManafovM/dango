@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-class EpisodeCollectionViewController: UICollectionViewController {
+class EpisodeCollectionViewController: BaseCollectionViewController {
     let episodes: [Episode]!
     var videoPlayer: AVPlayer!
     var playerViewController = AVPlayerViewController()
@@ -26,7 +26,6 @@ class EpisodeCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         collectionView.register(UINib(nibName: EpisodeCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: EpisodeCollectionViewCell.identifier)
         collectionView.setCollectionViewLayout(generateLayout(), animated: true)
-        collectionView.backgroundColor = Color.darkBackground.value
     }
     
     func generateLayout() -> UICollectionViewLayout {
