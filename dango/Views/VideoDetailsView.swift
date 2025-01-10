@@ -11,7 +11,14 @@ import AVKit
 class VideoDetailsView: UIView {
     let video: Video
     
-    let stackView = UIStackView()
+    let stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.spacing = 16
+        stack.distribution = .fill
+        stack.alignment = .fill
+        return stack
+    }()
     
     var audioPlayer: AVPlayer!
     var videoPlayer: AVPlayer!
@@ -32,11 +39,6 @@ class VideoDetailsView: UIView {
     }
     
     func setupStackView() {
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.distribution = .fill
-        stackView.alignment = .fill
-        
         addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -70,7 +72,7 @@ class VideoDetailsView: UIView {
         stackView.addArrangedSubview(descriptionLabel)
         
         // MARK: Play button setup
-        let playButton = UIButton(type: .system)
+        let playButton = UIButton()
         var config = UIButton.Configuration.filled()
         
         var buttonTitle = AttributedString("再生")
@@ -90,7 +92,7 @@ class VideoDetailsView: UIView {
         stackView.addArrangedSubview(playButton)
         
         // MARK: Episodes button setup
-        let episodesButton = UIButton(type: .system)
+        let episodesButton = UIButton()
         let episodes = video.episodes
         if !episodes.isEmpty {
             var config2 = UIButton.Configuration.filled()
@@ -108,8 +110,12 @@ class VideoDetailsView: UIView {
             episodesButton.addTarget(self, action: #selector(episodesButtonTapped), for: .touchUpInside)
         }
         
+        // MARK: My List, Rating, Share buttons setup
+        let buttonsView = ButtonsView(video: video)
+        stackView.addArrangedSubview(buttonsView)
+        
         // MARK: Synopsis label setup
-        let divider = createDivider()
+        let divider = HorizontalDivider()
         stackView.addArrangedSubview(divider)
         
         let synopsisHeaderLabel = UILabel()
@@ -123,7 +129,7 @@ class VideoDetailsView: UIView {
         synopsis.font = UIFont.systemFont(ofSize: 16, weight: .light)
         stackView.addArrangedSubview(synopsis)
 
-        let divider2 = createDivider()
+        let divider2 = HorizontalDivider()
         stackView.addArrangedSubview(divider2)
         
         if episodes.isEmpty {
@@ -131,8 +137,7 @@ class VideoDetailsView: UIView {
             playButton.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 playButton.heightAnchor.constraint(equalToConstant: 44),
-                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
-                playButton.bottomAnchor.constraint(equalTo: divider.topAnchor, constant: -32)
+                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16)
             ])
         } else {
             // MARK: Setup content insets for play button and episodes button
@@ -141,20 +146,12 @@ class VideoDetailsView: UIView {
                 playButton.heightAnchor.constraint(equalToConstant: 44),
                 playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
                 episodesButton.heightAnchor.constraint(equalToConstant: 44),
-                episodesButton.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12),
-                episodesButton.bottomAnchor.constraint(equalTo: divider.topAnchor, constant: -32)
+                episodesButton.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12)
             ])
         }
         
         // MARK: Play button's on tapped action
         playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
-    }
-    
-    func createDivider() -> UIView {
-        let divider = UIView()
-        divider.backgroundColor = .lightGray.withAlphaComponent(0.5)
-        divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
-        return divider
     }
     
     deinit {

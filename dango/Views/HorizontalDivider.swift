@@ -8,13 +8,17 @@
 import UIKit
 
 class HorizontalDivider: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    init() {
+        super.init(frame: .zero)
+        setupView()
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupView() {
+        self.backgroundColor = .lightGray.withAlphaComponent(0.5)
+        self.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
+    }
 }

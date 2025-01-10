@@ -39,14 +39,6 @@ class SearchResultsCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let divider: UIView = {
-        let divider = UIView()
-        divider.backgroundColor = .lightGray.withAlphaComponent(0.5)
-        divider.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
-        
-        return divider
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -83,6 +75,7 @@ class SearchResultsCollectionViewCell: UICollectionViewCell {
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
         
+        let divider = HorizontalDivider()
         addSubview(divider)
         divider.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
