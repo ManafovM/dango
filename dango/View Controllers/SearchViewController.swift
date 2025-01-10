@@ -21,6 +21,7 @@ class SearchViewController: BaseViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "作品名で検索"
+        searchController.searchBar.tintColor = .white
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 }
