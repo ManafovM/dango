@@ -14,7 +14,7 @@ struct Video: Codable {
     let duration: Int
     let description: String
     let synopsis: String
-    let genres: [Genre]
+    let tags: [Tag]
     let cast: [Artist]
     let episodes: [Episode]
     let relatedVideos: [Video]?

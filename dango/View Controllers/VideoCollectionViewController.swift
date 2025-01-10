@@ -174,22 +174,6 @@ class VideoCollectionViewController: BaseCollectionViewController {
         return layout
     }
     
-    func createCloseButton() -> UIBarButtonItem {
-        let closeButton = UIButton(type: .custom)
-        closeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        
-        let xmark = UIImage(systemName: "xmark")
-        let smallXmark = xmark?.applyingSymbolConfiguration(UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .small))
-        closeButton.setImage(smallXmark, for: .normal)
-        
-        closeButton.tintColor = .white
-        closeButton.backgroundColor = .systemGray4
-        closeButton.layer.cornerRadius = 15
-        
-        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        return UIBarButtonItem(customView: closeButton)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let itemIdentifier = dataSource.itemIdentifier(for: indexPath),
               let item = items.first(where: { $0.id == itemIdentifier }) else { return }
@@ -200,13 +184,10 @@ class VideoCollectionViewController: BaseCollectionViewController {
         }
         
         let navigationController = UINavigationController(rootViewController: videoDetailsViewController)
-        navigationController.navigationBar.topItem?.leftBarButtonItem = createCloseButton()
+        navigationController.navigationBar.topItem?.leftBarButtonItem = CloseButton {
+            self.videoDetailsViewController.dismiss(animated: true)
+        }
         
         present(navigationController, animated: true, completion: nil)
-    }
-    
-    @objc
-    func closeButtonTapped() {
-        videoDetailsViewController.dismiss(animated: true)
     }
 }
