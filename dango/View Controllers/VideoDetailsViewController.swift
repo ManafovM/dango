@@ -13,7 +13,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     let topImageView: VideoDetailsTopImageView
     let scrollView = UIScrollView()
-    let videoDetailsView: VideoDetailsView
+    let videoInfoView: VideoInfoView
     var castCollectionViewController: CastCollectionViewController!
     var castCollectionView: UICollectionView!
     var relatedVideosCollectionView: UICollectionView!
@@ -25,7 +25,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     init?(coder: NSCoder, video: Video) {
         self.video = video
         self.topImageView = VideoDetailsTopImageView(frame: .zero)
-        self.videoDetailsView = VideoDetailsView(frame: .zero, video: video)
+        self.videoInfoView = VideoInfoView(frame: .zero, video: video)
         super.init(coder: coder)
     }
     
@@ -42,8 +42,8 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if videoDetailsView.audioPlayer.rate != 0.0 {
-            videoDetailsView.audioPlayer.pause()
+        if videoInfoView.audioPlayer.rate != 0.0 {
+            videoInfoView.audioPlayer.pause()
         }
     }
     
@@ -51,7 +51,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         setupBackBarButton()
         setupTopImageView()
         setupScrollView()
-        setupVideoDetailsView()
+        setupVideoInfoView()
         setupCastCollectionView()
         setupRelatedVideosView()
     }
@@ -83,14 +83,14 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
-    func setupVideoDetailsView() {
-        scrollView.addSubview(videoDetailsView)
-        videoDetailsView.translatesAutoresizingMaskIntoConstraints = false
+    func setupVideoInfoView() {
+        scrollView.addSubview(videoInfoView)
+        videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.7),
-            videoDetailsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            videoDetailsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            videoDetailsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            videoInfoView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.7),
+            videoInfoView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            videoInfoView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            videoInfoView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
     
@@ -102,7 +102,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         
         castCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            castCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor),
+            castCollectionView.topAnchor.constraint(equalTo: videoInfoView.bottomAnchor),
             castCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             castCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             castCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),

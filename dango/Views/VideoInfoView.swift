@@ -1,5 +1,5 @@
 //
-//  VideoDetailsView.swift
+//  VideoInfoView.swift
 //  dango
 //
 //  Created by マナフォフ・マリフ on 2024/12/16.
@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-class VideoDetailsView: UIView {
+class VideoInfoView: UIView {
     let video: Video
     
     let stackView: UIStackView = {
@@ -163,7 +163,7 @@ class VideoDetailsView: UIView {
     }
 }
 
-extension VideoDetailsView {
+extension VideoInfoView {
     func playAudio(audioUrl: String) {
         guard let audioUrl = URL(string: audioUrl) else { return }
         
