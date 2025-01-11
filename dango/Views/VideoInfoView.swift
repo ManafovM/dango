@@ -200,6 +200,8 @@ extension VideoInfoView {
                     
                     self.audioPlayer.pause()
                     self.videoPlayer.play()
+                    
+                    Settings.shared.watched(self.video)
                 }
             }
             

@@ -37,6 +37,15 @@ extension Settings {
         }
     }
     
+    var watchHistory: [Video] {
+        get {
+            return unarchiveJSON(key: Setting.watchHistory) ?? []
+        }
+        set {
+            archiveJSON(value: newValue, key: Setting.watchHistory)
+        }
+    }
+    
     mutating func toggleMyList(_ video: Video) -> Bool {
         var myList = self.myList
         
@@ -52,8 +61,19 @@ extension Settings {
         self.myList = myList
         return added
     }
+    
+    mutating func watched(_ video: Video) {
+        var watched = self.watchHistory
+        
+        if !watched.contains(video) {
+            watched.append(video)
+        }
+        
+        self.watchHistory = watched
+    }
 }
 
 struct Setting {
     static let myList = "myList";
+    static let watchHistory = "watchHistory"
 }
