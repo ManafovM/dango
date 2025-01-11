@@ -13,6 +13,8 @@ class ImageOnTopButton: UIButton {
     let tappedImage: UIImage?
     var onTap: (() -> Void)?
     
+    let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
+    
     init(title: String, imageName: String, tappedImageName: String = "", onTap: (() -> Void)? = nil) {
         self.title = title
         self.image = UIImage(systemName: imageName)
@@ -39,6 +41,8 @@ class ImageOnTopButton: UIButton {
         
         self.setImage(image, for: .normal)
         self.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        feedbackGenerator.prepare()
     }
     
     func animateImageTransition(startTransform: CGAffineTransform, endTransform: CGAffineTransform, newImage: UIImage?) {
@@ -74,6 +78,7 @@ class ImageOnTopButton: UIButton {
     
     @objc
     func buttonTapped() {
+        feedbackGenerator.impactOccurred()
         onTap?()
     }
 }

@@ -58,8 +58,14 @@ class ButtonsView: UIView {
             } else {
                 print("マイリストから削除されました")
             }
+            
             myListButton.toggleWithAnimation()
         })
+        
+        if Settings.shared.myList.contains(video) {
+            myListButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        }
+        
         stackView.addArrangedSubview(myListButton)
     }
     
