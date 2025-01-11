@@ -10,6 +10,10 @@ import UIKit
 class ButtonsView: UIView {
     let video: Video
     
+    var myListButton: ImageOnTopButton!
+    var ratingButton: ImageOnTopButton!
+    var shareButton: ImageOnTopButton!
+    
     let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -45,26 +49,31 @@ class ButtonsView: UIView {
     }
     
     func setupMyListButton() {
-        let myListButton = ImageOnTopButton(title: "マイリスト", imageName: "checkmark", onTap: {
+        myListButton = ImageOnTopButton(title: "マイリスト", imageName: "plus", tappedImageName: "checkmark", onTap: { [weak self] in
+            guard let self = self else { return }
+            
             let added = Settings.shared.toggleMyList(self.video)
             if added {
                 print("マイリストに追加されました")
             } else {
                 print("マイリストから削除されました")
             }
+            myListButton.toggleWithAnimation()
         })
         stackView.addArrangedSubview(myListButton)
     }
     
     func setupRatingButton() {
-        let ratingButton = ImageOnTopButton(title: "作品を評価", imageName: "star", onTap: {
+        ratingButton = ImageOnTopButton(title: "作品を評価", imageName: "star", tappedImageName: "star.fill", onTap: { [weak self] in
+            guard let self = self else { return }
             print("評価ボタンが押されました")
+            ratingButton.toggle()
         })
         stackView.addArrangedSubview(ratingButton)
     }
     
     func setupShareButton() {
-        let shareButton = ImageOnTopButton(title: "共有", imageName: "square.and.arrow.up", onTap: {
+        shareButton = ImageOnTopButton(title: "共有", imageName: "square.and.arrow.up", onTap: {
             print("共有ボタンが押されました")
         })
         stackView.addArrangedSubview(shareButton)
