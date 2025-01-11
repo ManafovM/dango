@@ -211,10 +211,7 @@ extension VideoDetailsView {
     }
     
     @objc func episodesButtonTapped() {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: EpisodeCollectionViewController.self))
-        let controller = storyboard.instantiateViewController(identifier: "EpisodeCollectionViewController") { coder in
-            EpisodeCollectionViewController(coder: coder, episodes: self.video.episodes.sorted(by: <))
-        }
+        let controller = EpisodeCollectionViewController(episodes: self.video.episodes.sorted(by: <))
         controller.title = video.title
         
         if let viewController = self.getViewController(),

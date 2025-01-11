@@ -95,11 +95,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func setupCastCollectionView() {
-        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: CastCollectionViewController.self))
-        castCollectionViewController = storyBoard.instantiateViewController(identifier: "CastCollectionViewController") { coder in
-            CastCollectionViewController(coder: coder, cast: self.video.cast)
-        }
-        
+        castCollectionViewController = CastCollectionViewController(cast: self.video.cast)
         castCollectionView = castCollectionViewController.collectionView
         castCollectionView.isScrollEnabled = false
         scrollView.addSubview(castCollectionView)

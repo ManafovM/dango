@@ -28,22 +28,9 @@ class CastCollectionViewController: BaseCollectionViewController {
         cell.backgroundConfiguration = backgroundConfig
     }
     
-    init?(coder: NSCoder, cast: [Artist]) {
+    init(cast: [Artist]) {
         self.cast = cast
-        super.init(coder: coder)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
-        collectionView.setCollectionViewLayout(createLayout(), animated: true)
-    }
-    
-    func createLayout() -> UICollectionViewCompositionalLayout {
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -58,7 +45,18 @@ class CastCollectionViewController: BaseCollectionViewController {
         section.interGroupSpacing = 6
         section.boundarySupplementaryItems = [sectionHeader]
         
-        return UICollectionViewCompositionalLayout(section: section)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
+        super.init(collectionViewLayout: layout)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.register(NamedSectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NamedSectionHeaderView.identifier)
     }
 
     // MARK: UICollectionViewDataSource
