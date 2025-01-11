@@ -8,7 +8,7 @@
 import UIKit
 
 class WatchHistoryCollectionViewController: BaseCollectionViewController {
-    var videoDetailsViewController: UIViewController!
+    var videoDetailsViewController: VideoDetailsViewController!
     
     var videos: [Video] {
         Settings.shared.watchHistory
@@ -74,7 +74,7 @@ class WatchHistoryCollectionViewController: BaseCollectionViewController {
         let item = videos[indexPath.item]
         
         let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: VideoDetailsViewController.self))
-        let videoDetailsViewController = storyBoard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
+        videoDetailsViewController = storyBoard.instantiateViewController(identifier: "VideoDetailsViewController") { coder in
             VideoDetailsViewController(coder: coder, video: item)
         }
         

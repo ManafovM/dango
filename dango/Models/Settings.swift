@@ -54,7 +54,7 @@ extension Settings {
             myList = myList.filter { $0 != video }
             added = false
         } else {
-            myList.append(video)
+            myList.insert(video, at: 0)
             added = true
         }
         
@@ -66,7 +66,7 @@ extension Settings {
         var watched = self.watchHistory
         
         if !watched.contains(video) {
-            watched.append(video)
+            watched.insert(video, at: 0)
         }
         
         self.watchHistory = watched

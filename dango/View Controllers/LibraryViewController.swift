@@ -46,7 +46,11 @@ class LibraryViewController: BaseViewController {
     
     func setupWatchHistoryView() {
         watchHistoryCollectionViewController = WatchHistoryCollectionViewController()
+        addChild(watchHistoryCollectionViewController)
+        
         watchHistoryView = watchHistoryCollectionViewController.collectionView
         stackView.addArrangedSubview(watchHistoryView)
+        
+        watchHistoryCollectionViewController.didMove(toParent: self)
     }
 }
