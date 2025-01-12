@@ -13,5 +13,12 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = Color.darkBackground.value
+        setupBackBarButton()
+    }
+    
+    func setupBackBarButton() {
+        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        backBarButton.tintColor = .white
+        navigationItem.backBarButtonItem = backBarButton
     }
 }

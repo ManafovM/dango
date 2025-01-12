@@ -47,7 +47,19 @@ class LibraryButtonsView: UIView {
     }
     
     func setupMyListButton() {
-        myListButton = ImageOnTopButton(title: "マイリスト", backgroundColor: Color.lightBackground.value, imageName: "list.clipboard.fill", onTap: { })
+        myListButton = ImageOnTopButton(title: "マイリスト", backgroundColor: Color.lightBackground.value, imageName: "list.clipboard.fill", onTap: {
+            let myListController = MyListCollectionViewController()
+            myListController.title = "マイリスト"
+            
+            let videoIds = Settings.shared.myList.map { $0.id }
+            if !videoIds.isEmpty {
+                myListController.search(by: videoIds)
+            }
+            
+            if let controller = self.getViewController() {
+                controller.navigationController?.pushViewController(myListController, animated: true)
+            }
+        })
         stackView.addArrangedSubview(myListButton)
     }
     

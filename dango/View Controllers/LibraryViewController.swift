@@ -68,6 +68,8 @@ class LibraryViewController: BaseViewController {
         fetchVideosTask?.cancel()
         fetchVideosTask = Task {
             let watchHistory = Settings.shared.watchHistory
+            guard !watchHistory.isEmpty else { return }
+            
             let watchHistoryDates = Dictionary(
                 uniqueKeysWithValues: watchHistory.map { ($0.videoId, $0.lastWatchedDate) }
             )

@@ -14,7 +14,6 @@ class SearchViewController: BaseViewController {
         super.viewDidLoad()
 
         setupSearchController()
-        setupBackBarButton()
     }
     
     func setupSearchController() {
@@ -24,12 +23,6 @@ class SearchViewController: BaseViewController {
         searchController.searchBar.placeholder = "作品名で検索"
         searchController.searchBar.tintColor = .white
         navigationItem.hidesSearchBarWhenScrolling = false
-    }
-    
-    func setupBackBarButton() {
-        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        backBarButton.tintColor = .white
-        navigationItem.backBarButtonItem = backBarButton
     }
 }
 
