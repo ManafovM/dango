@@ -9,13 +9,7 @@ import UIKit
 
 class LibraryViewController: BaseViewController {
     var fetchVideosTask: Task<Void, Never>? = nil
-    var videoRequestTasks: [Int: Task<Void, Never>] = [:]
-    deinit {
-        fetchVideosTask?.cancel()
-        for task in videoRequestTasks.values {
-            task.cancel()
-        }
-    }
+    deinit { fetchVideosTask?.cancel() }
     
     let buttonsView = LibraryButtonsView()
     
@@ -73,34 +67,23 @@ class LibraryViewController: BaseViewController {
     func fetchVideosForWatchHistory() {
         fetchVideosTask?.cancel()
         fetchVideosTask = Task {
-            var videos = [Video?](repeating: nil, count: Settings.shared.watchHistory.count)
+            let watchHistory = Settings.shared.watchHistory
+            let watchHistoryDates = Dictionary(
+                uniqueKeysWithValues: watchHistory.map { ($0.videoId, $0.lastWatchedDate) }
+            )
+            let videoIds = watchHistory.map { $0.videoId }
             
-            await withTaskGroup(of: (Int, Video?).self) { group in
-                for (index, element) in Settings.shared.watchHistory.enumerated() {
-                    videoRequestTasks[element.videoId]?.cancel()
-                    
-                    group.addTask {
-                        do {
-                            let video = try await VideoByIdRequest(id: element.videoId).send()
-                            return (index, video.first)
-                        } catch {
-                            print("Failed to fetch video for ID \(element.videoId): \(error)")
-                            return (index, nil)
-                        }
+            if let newVideos = try? await VideosByIdsRequest(ids: videoIds).send() {
+                let sortedVideos = newVideos.sorted {
+                    guard let date1 = watchHistoryDates[$0.id], let date2 = watchHistoryDates[$1.id] else {
+                        return false
                     }
+                    return date1 > date2
                 }
                 
-                for await (index, video) in group {
-                    if let video = video {
-                        videos[index] = video
-                    }
-                }
+                watchHistoryCollectionViewController.videos = sortedVideos
+                watchHistoryView.reloadSections(IndexSet(integer: 0))
             }
-            
-            let validVideos = videos.compactMap { $0 }
-            
-            watchHistoryCollectionViewController.videos = validVideos
-            watchHistoryView.reloadSections(IndexSet(integer: 0))
             
             fetchVideosTask = nil
         }

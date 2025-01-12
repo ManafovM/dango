@@ -7,13 +7,17 @@
 
 import UIKit
 
-struct VideoByIdRequest: APIRequest {
+struct VideosByIdsRequest: APIRequest {
     typealias Response = [Video]
     
     var path: String { "/api/videos" }
-    var id: Int
+    var ids: [Int]
     var queryItems: [URLQueryItem]? {
-        [URLQueryItem(name: "filters[id][$eq]", value: "\(id)")]
+        var items = [URLQueryItem]()
+        for (index, id) in ids.enumerated() {
+            items.append(URLQueryItem(name: "filters[id][$in][\(index)]", value: "\(id)"))
+        }
+        return items
     }
 }
 

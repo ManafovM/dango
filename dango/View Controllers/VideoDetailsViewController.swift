@@ -208,7 +208,7 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
     func fetchRelatedVideos() {
         videoRequestTask?.cancel()
         videoRequestTask = Task {
-            if let video = try? await VideoByIdRequest(id: video.id).send() {
+            if let video = try? await VideosByIdsRequest(ids: [video.id]).send() {
                 self.relatedVideos = video.first?.relatedVideos ?? []
             }
             self.relatedVideosCollectionView.reloadSections(IndexSet(integer: 0))
