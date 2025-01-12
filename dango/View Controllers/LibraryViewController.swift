@@ -99,10 +99,8 @@ class LibraryViewController: BaseViewController {
             
             let validVideos = videos.compactMap { $0 }
             
-            await MainActor.run {
-                watchHistoryCollectionViewController.videos = validVideos
-                watchHistoryView.reloadSections(IndexSet(integer: 0))
-            }
+            watchHistoryCollectionViewController.videos = validVideos
+            watchHistoryView.reloadSections(IndexSet(integer: 0))
             
             fetchVideosTask = nil
         }

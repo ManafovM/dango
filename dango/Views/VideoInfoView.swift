@@ -75,7 +75,13 @@ class VideoInfoView: UIView {
         let playButton = UIButton()
         var config = UIButton.Configuration.filled()
         
-        var buttonTitle = AttributedString("再生")
+        let episodes = video.episodes
+        var buttonTitle: AttributedString
+        if !episodes.isEmpty {
+            buttonTitle = AttributedString("第\(getCurrentEpisodeNum())話を再生")
+        } else {
+            buttonTitle = AttributedString("再生")
+        }
         buttonTitle.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         
         var buttonSubtitle = AttributedString(" (\(video.duration)分)")
@@ -93,7 +99,6 @@ class VideoInfoView: UIView {
         
         // MARK: Episodes button setup
         let episodesButton = UIButton()
-        let episodes = video.episodes
         if !episodes.isEmpty {
             var config2 = UIButton.Configuration.filled()
             config2.title = "エピゾードを選択(全\(episodes.count)話)"
@@ -188,6 +193,13 @@ extension VideoInfoView {
         playerViewController.player = videoPlayer
     }
     
+    func getCurrentEpisodeNum() -> Int {
+        if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == video.id }) {
+            return watchHistory.currentEpisodeNum
+        }
+        return 1
+    }
+    
     @objc func playButtonTapped(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1) {
             sender.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
@@ -201,7 +213,8 @@ extension VideoInfoView {
                     self.audioPlayer.pause()
                     self.videoPlayer.play()
                     
-                    Settings.shared.watched(videoId: self.video.id, episodeNum: 1, timestampSec: 3)
+                    // TODO: Set episodes and timestamp
+                    Settings.shared.watched(videoId: self.video.id, episodeNum: 2, timestampSec: 3)
                 }
             }
             

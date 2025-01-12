@@ -65,12 +65,16 @@ extension Settings {
     mutating func watched(videoId: Int, episodeNum: Int, timestampSec: Int) {
         var watched = self.watchHistory
         
-        if !watched.contains(where: { $0.videoId == videoId }) {
-            let watchHisotry = WatchHistory(videoId: videoId, currentEpisodeNum: episodeNum, currentEpisodeTimestampSec: timestampSec, lastWatchedDate: Date.now)
-            watched.insert(watchHisotry, at: 0)
+        if let index = watched.firstIndex(where: { $0.videoId == videoId }) {
+            watched[index].currentEpisodeNum = episodeNum
+            watched[index].currentEpisodeTimestampSec = timestampSec
+            watched[index].lastWatchedDate = Date.now
+        } else {
+            let history = WatchHistory(videoId: videoId, currentEpisodeNum: episodeNum, currentEpisodeTimestampSec: timestampSec, lastWatchedDate: Date.now)
+            watched.append(history)
         }
         
-        self.watchHistory = watched
+        self.watchHistory = watched.sorted(by: <)
     }
 }
 

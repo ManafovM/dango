@@ -9,7 +9,13 @@ import Foundation
 
 struct WatchHistory: Codable {
     let videoId: Int
-    let currentEpisodeNum: Int
-    let currentEpisodeTimestampSec: Int
-    let lastWatchedDate: Date
+    var currentEpisodeNum: Int
+    var currentEpisodeTimestampSec: Int
+    var lastWatchedDate: Date
+}
+
+extension WatchHistory: Comparable {
+    static func < (lhs: WatchHistory, rhs: WatchHistory) -> Bool {
+        return lhs.lastWatchedDate > rhs.lastWatchedDate
+    }
 }

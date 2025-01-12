@@ -209,7 +209,7 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
         videoRequestTask?.cancel()
         videoRequestTask = Task {
             if let video = try? await VideoByIdRequest(id: video.id).send() {
-                self.relatedVideos = video[0].relatedVideos ?? []
+                self.relatedVideos = video.first?.relatedVideos ?? []
             }
             self.relatedVideosCollectionView.reloadSections(IndexSet(integer: 0))
             self.relatedVideosHeightConstraint.constant = calculateHeightOfRelatedVideosCollectionView()
