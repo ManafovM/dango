@@ -37,7 +37,7 @@ extension Settings {
         }
     }
     
-    var watchHistory: [Video] {
+    var watchHistory: [WatchHistory] {
         get {
             return unarchiveJSON(key: Setting.watchHistory) ?? []
         }
@@ -62,11 +62,12 @@ extension Settings {
         return added
     }
     
-    mutating func watched(_ video: Video) {
+    mutating func watched(videoId: Int, episodeNum: Int, timestampSec: Int) {
         var watched = self.watchHistory
         
-        if !watched.contains(video) {
-            watched.insert(video, at: 0)
+        if !watched.contains(where: { $0.videoId == videoId }) {
+            let watchHisotry = WatchHistory(videoId: videoId, currentEpisodeNum: episodeNum, currentEpisodeTimestampSec: timestampSec, lastWatchedDate: Date.now)
+            watched.insert(watchHisotry, at: 0)
         }
         
         self.watchHistory = watched

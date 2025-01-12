@@ -10,9 +10,7 @@ import UIKit
 class WatchHistoryCollectionViewController: BaseCollectionViewController {
     var videoDetailsViewController: VideoDetailsViewController!
     
-    var videos: [Video] {
-        Settings.shared.watchHistory
-    }
+    var videos: [Video] = []
     
     init() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1))

@@ -8,6 +8,15 @@
 import UIKit
 
 class LibraryViewController: BaseViewController {
+    var fetchVideosTask: Task<Void, Never>? = nil
+    var videoRequestTasks: [Int: Task<Void, Never>] = [:]
+    deinit {
+        fetchVideosTask?.cancel()
+        for task in videoRequestTasks.values {
+            task.cancel()
+        }
+    }
+    
     let buttonsView = LibraryButtonsView()
     
     var watchHistoryCollectionViewController: WatchHistoryCollectionViewController!
@@ -16,6 +25,7 @@ class LibraryViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchVideosForWatchHistory()
         setupWatchHistoryView()
         setupLibraryButtonsView()
     }
@@ -23,7 +33,7 @@ class LibraryViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        watchHistoryView.reloadSections(IndexSet(integer: 0))
+        fetchVideosForWatchHistory()
     }
     
     func setupWatchHistoryView() {
@@ -58,5 +68,43 @@ class LibraryViewController: BaseViewController {
         let spacing = 4
         let headerHeight = 36
         return CGFloat(cellHeight + spacing + headerHeight)
+    }
+    
+    func fetchVideosForWatchHistory() {
+        fetchVideosTask?.cancel()
+        fetchVideosTask = Task {
+            var videos = [Video?](repeating: nil, count: Settings.shared.watchHistory.count)
+            
+            await withTaskGroup(of: (Int, Video?).self) { group in
+                for (index, element) in Settings.shared.watchHistory.enumerated() {
+                    videoRequestTasks[element.videoId]?.cancel()
+                    
+                    group.addTask {
+                        do {
+                            let video = try await VideoByIdRequest(id: element.videoId).send()
+                            return (index, video.first)
+                        } catch {
+                            print("Failed to fetch video for ID \(element.videoId): \(error)")
+                            return (index, nil)
+                        }
+                    }
+                }
+                
+                for await (index, video) in group {
+                    if let video = video {
+                        videos[index] = video
+                    }
+                }
+            }
+            
+            let validVideos = videos.compactMap { $0 }
+            
+            await MainActor.run {
+                watchHistoryCollectionViewController.videos = validVideos
+                watchHistoryView.reloadSections(IndexSet(integer: 0))
+            }
+            
+            fetchVideosTask = nil
+        }
     }
 }

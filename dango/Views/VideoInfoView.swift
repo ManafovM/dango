@@ -201,7 +201,7 @@ extension VideoInfoView {
                     self.audioPlayer.pause()
                     self.videoPlayer.play()
                     
-                    Settings.shared.watched(self.video)
+                    Settings.shared.watched(videoId: self.video.id, episodeNum: 1, timestampSec: 3)
                 }
             }
             
