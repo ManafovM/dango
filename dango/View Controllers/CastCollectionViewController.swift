@@ -21,7 +21,7 @@ class CastCollectionViewController: BaseCollectionViewController {
         cell.contentConfiguration = config
         
         var backgroundConfig = UIBackgroundConfiguration.listCell()
-        backgroundConfig.backgroundColor = Color.background.value
+        backgroundConfig.backgroundColor = Color.lightBackground.value
         backgroundConfig.cornerRadius = 12
         backgroundConfig.strokeColor = .lightGray.withAlphaComponent(0.5)
         backgroundConfig.strokeWidth = 1 / UIScreen.main.scale

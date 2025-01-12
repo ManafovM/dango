@@ -1,5 +1,5 @@
 //
-//  ButtonsView.swift
+//  VideoDetailsButtonsView.swift
 //  dango
 //
 //  Created by マナフォフ・マリフ on 2025/01/10.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ButtonsView: UIView {
+class VideoDetailsButtonsView: UIView {
     let video: Video
     
     var myListButton: ImageOnTopButton!

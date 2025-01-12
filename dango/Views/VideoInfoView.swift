@@ -100,7 +100,7 @@ class VideoInfoView: UIView {
             config2.image = UIImage(systemName: "rectangle.stack")
             config2.imagePadding = 8.0
             config2.baseForegroundColor = .white
-            config2.baseBackgroundColor = Color.background.value
+            config2.baseBackgroundColor = Color.lightBackground.value
             config2.cornerStyle = .medium
             config2.background.strokeColor = .white
             config2.background.strokeWidth = 1
@@ -111,7 +111,7 @@ class VideoInfoView: UIView {
         }
         
         // MARK: My List, Rating, Share buttons setup
-        let buttonsView = ButtonsView(video: video)
+        let buttonsView = VideoDetailsButtonsView(video: video)
         stackView.addArrangedSubview(buttonsView)
         
         // MARK: Synopsis label setup

@@ -8,14 +8,7 @@
 import UIKit
 
 class LibraryViewController: BaseViewController {
-    let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 16
-        stack.distribution = .fill
-        stack.alignment = .fill
-        return stack
-    }()
+    let buttonsView = LibraryButtonsView()
     
     var watchHistoryCollectionViewController: WatchHistoryCollectionViewController!
     var watchHistoryView: UICollectionView!
@@ -23,8 +16,8 @@ class LibraryViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupStackView()
         setupWatchHistoryView()
+        setupLibraryButtonsView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,24 +26,37 @@ class LibraryViewController: BaseViewController {
         watchHistoryView.reloadSections(IndexSet(integer: 0))
     }
     
-    func setupStackView() {
-        view.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
     func setupWatchHistoryView() {
         watchHistoryCollectionViewController = WatchHistoryCollectionViewController()
         addChild(watchHistoryCollectionViewController)
         
         watchHistoryView = watchHistoryCollectionViewController.collectionView
-        stackView.addArrangedSubview(watchHistoryView)
+        view.addSubview(watchHistoryView)
+        watchHistoryView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            watchHistoryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            watchHistoryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            watchHistoryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            watchHistoryView.heightAnchor.constraint(equalToConstant: calculateHeightOfWatchHistoryView())
+        ])
         
         watchHistoryCollectionViewController.didMove(toParent: self)
+    }
+    
+    func setupLibraryButtonsView() {
+        view.addSubview(buttonsView)
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            buttonsView.topAnchor.constraint(equalTo: watchHistoryView.bottomAnchor),
+            buttonsView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            buttonsView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+        ])
+    }
+    
+    func calculateHeightOfWatchHistoryView() -> CGFloat {
+        let cellHeight = Int(view.frame.width * 0.5 / 16 * 9)
+        let spacing = 4
+        let headerHeight = 36
+        return CGFloat(cellHeight + spacing + headerHeight)
     }
 }

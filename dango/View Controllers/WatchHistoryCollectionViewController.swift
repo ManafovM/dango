@@ -26,7 +26,7 @@ class WatchHistoryCollectionViewController: BaseCollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 4, trailing: 16)
         section.interGroupSpacing = 12
         section.boundarySupplementaryItems = [sectionHeader]
         
