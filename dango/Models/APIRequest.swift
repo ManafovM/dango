@@ -17,8 +17,25 @@ protocol APIRequest {
 }
 
 extension APIRequest {
-    var host: String { "192.168.10.101" }
-    var port: Int { 1337 }
+    var host: String {
+        guard let host = ProcessInfo.processInfo.environment["API_HOST"] else {
+            fatalError("API_HOST environment variable is not set.")
+        }
+        return host
+    }
+    var port: Int {
+        guard let portString = ProcessInfo.processInfo.environment["API_PORT"],
+              let port = Int(portString) else {
+            fatalError("API_PORT environment variable is not set or incorrect.")
+        }
+        return port
+    }
+    var apiKey: String {
+        guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
+            fatalError("API_KEY environment variable is not set.")
+        }
+        return apiKey
+    }
 }
 
 extension APIRequest {
@@ -30,7 +47,7 @@ extension APIRequest {
     var request: URLRequest {
         var components = URLComponents()
         
-        components.scheme = "http"
+        components.scheme = "https"
         components.host = host
         components.port = port
         components.path = path
@@ -38,7 +55,7 @@ extension APIRequest {
         
         var request = URLRequest(url: components.url!)
         
-        request.setValue("bearer f13e2611ed58e4fc873ed32d6906d7c88b6e5d062d6486902e2aadb0aec0d334dbc5770320bc2a6f77e1e9d5c74e1b4d22141e6a23694711961fc7ed0b3ab3a3f623db6abb47d47f3ddc4f7c0438223c9516a1f1da7959c6b6a414b4d0a6b8c7fe3e9784dd07df6fea992afeeabb021fe35530b4e97ed94ec10322ac7c437dcb", forHTTPHeaderField: "Authorization")
+        request.setValue(apiKey, forHTTPHeaderField: "Authorization")
         
         if let data = postData {
             request.httpBody = data
