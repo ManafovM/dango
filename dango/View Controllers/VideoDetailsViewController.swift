@@ -144,7 +144,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     func calculateHeightOfRelatedVideosCollectionView() -> CGFloat {
         let cellHeight = Int(view.frame.width * 0.5 / 16 * 9)
-        let relatedVideosCount = Int(ceil(Double(relatedVideosCollectionView.numberOfItems(inSection: 0)) / 2))
+        let relatedVideosCount = max(1, Int(ceil(Double(relatedVideosCollectionView.numberOfItems(inSection: 0)) / 2)))
         let spacing = 12
         let headerHeight = 36
         return CGFloat(relatedVideosCount * cellHeight + (relatedVideosCount - 1) * spacing + headerHeight)

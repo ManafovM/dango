@@ -87,7 +87,7 @@ class SearchResultsCollectionViewCell: UICollectionViewCell {
     
     func configureCell(_ video: Video) {
         imageRequestTask = Task {
-            if let image = try? await ImageRequest(imagePath: video.thumbnailUrl).send() {
+            if let image = try? await ImageRequest(imageUrl: video.thumbnailUrl).send() {
                 self.imageView.image = image
             }
             imageRequestTask = nil

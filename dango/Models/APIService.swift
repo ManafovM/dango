@@ -68,7 +68,9 @@ struct AllVideosRequest: APIRequest {
 struct ImageRequest: APIRequest {
     typealias Response = UIImage
     
-    var imagePath: String
+    var imageUrl: String
     
-    var path: String { imagePath }
+    var urlString: String? { imageUrl }
+    
+    var path: String { "/" }
 }

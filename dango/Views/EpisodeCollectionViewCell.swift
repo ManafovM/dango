@@ -24,7 +24,7 @@ class EpisodeCollectionViewCell: UICollectionViewCell {
     
     func configureCell(_ episode: Episode) {
         imageRequestTask = Task {
-            if let image = try? await ImageRequest(imagePath: episode.thumbnailUrl).send() {
+            if let image = try? await ImageRequest(imageUrl: episode.thumbnailUrl).send() {
                 self.imageView.image = image
             }
             imageRequestTask = nil

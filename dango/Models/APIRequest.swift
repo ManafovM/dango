@@ -14,6 +14,7 @@ protocol APIRequest {
     var queryItems: [URLQueryItem]? { get }
     var request: URLRequest { get }
     var postData: Data? { get }
+    var urlString: String? { get }
 }
 
 struct Environment {
@@ -44,23 +45,30 @@ extension APIRequest {
 extension APIRequest {
     var queryItems: [URLQueryItem]? { nil }
     var postData: Data? { nil }
+    var urlString: String? { nil }
 }
 
 extension APIRequest {
     var request: URLRequest {
         var components = URLComponents()
         
-        components.scheme = "https"
-        components.host = host
-        
         if Environment.env == "local" {
+            components.scheme = "http"
             components.port = port
+        } else {
+            components.scheme = "https"
         }
-        
+        components.host = host
         components.path = path
         components.queryItems = queryItems
         
-        var request = URLRequest(url: components.url!)
+        var request: URLRequest
+        if let urlString,
+           let url = URL(string: urlString) {
+            request = URLRequest(url: url)
+        } else {
+            request = URLRequest(url: components.url!)
+        }
         
         request.setValue(apiKey, forHTTPHeaderField: "Authorization")
         
