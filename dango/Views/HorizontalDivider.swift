@@ -18,7 +18,7 @@ class HorizontalDivider: UIView {
     }
     
     func setupView() {
-        self.backgroundColor = .lightGray.withAlphaComponent(0.5)
-        self.heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
+        backgroundColor = .lightGray.withAlphaComponent(0.5)
+        heightAnchor.constraint(equalToConstant: 1 / UIScreen.main.scale).isActive = true
     }
 }

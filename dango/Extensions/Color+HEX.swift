@@ -25,7 +25,7 @@ enum Color {
     case custom(hexString: String, alpha: Double)
     
     func withAlpha(_ alpha: Double) -> UIColor {
-        return self.value.withAlphaComponent(CGFloat(alpha))
+        return value.withAlphaComponent(CGFloat(alpha))
     }
 }
 

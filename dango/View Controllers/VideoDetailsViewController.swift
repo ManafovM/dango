@@ -77,6 +77,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func setupVideoInfoView() {
+        videoInfoView.delegate = self
         scrollView.addSubview(videoInfoView)
         videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -88,7 +89,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     func setupCastCollectionView() {
-        castCollectionViewController = CastCollectionViewController(cast: self.video.cast)
+        castCollectionViewController = CastCollectionViewController(cast: video.cast)
         castCollectionView = castCollectionViewController.collectionView
         castCollectionView.isScrollEnabled = false
         scrollView.addSubview(castCollectionView)
@@ -209,5 +210,26 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
             
             videoRequestTask = nil
         }
+    }
+}
+
+extension VideoDetailsViewController: VideoInfoViewDelegate {
+    func playTapped(_ view: VideoInfoView) {
+        present(view.playerViewController, animated: true) {
+            guard let windowScene = view.playerViewController.view.window?.windowScene else { return }
+            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
+            
+            view.audioPlayer.pause()
+            view.videoPlayer.play()
+            
+            Settings.shared.watched(videoId: view.video.id, episodeNum: view.currentEpisodeNum, timestampSec: 0)
+        }
+    }
+    
+    func episodesTapped() {
+        let controller = EpisodeCollectionViewController(episodes: video.episodes.sorted(by: <))
+        controller.title = video.title
+
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

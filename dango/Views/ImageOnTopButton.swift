@@ -37,10 +37,10 @@ class ImageOnTopButton: UIButton {
         
         let font = UIFont.systemFont(ofSize: 14, weight: .light)
         config.attributedTitle = AttributedString(title, attributes: AttributeContainer([.font: font]))
-        self.configuration = config
+        configuration = config
         
-        self.setImage(image, for: .normal)
-        self.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        setImage(image, for: .normal)
+        addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         feedbackGenerator.prepare()
     }
@@ -61,18 +61,18 @@ class ImageOnTopButton: UIButton {
     }
     
     func toggle() {
-        if self.currentImage == self.image {
-            self.setImage(self.tappedImage, for: .normal)
+        if currentImage == image {
+            setImage(tappedImage, for: .normal)
         } else {
-            self.setImage(self.image, for: .normal)
+            setImage(image, for: .normal)
         }
     }
     
     func toggleWithAnimation() {
-        if self.currentImage == self.image {
-            animateImageTransition(startTransform: CGAffineTransform(rotationAngle: .pi / 2), endTransform: CGAffineTransform(rotationAngle: -(.pi / 2)), newImage: self.tappedImage)
+        if currentImage == image {
+            animateImageTransition(startTransform: CGAffineTransform(rotationAngle: .pi / 2), endTransform: CGAffineTransform(rotationAngle: -(.pi / 2)), newImage: tappedImage)
         } else {
-            animateImageTransition(startTransform: CGAffineTransform(rotationAngle: -(.pi / 2)), endTransform: CGAffineTransform(rotationAngle: .pi / 2), newImage: self.image)
+            animateImageTransition(startTransform: CGAffineTransform(rotationAngle: -(.pi / 2)), endTransform: CGAffineTransform(rotationAngle: .pi / 2), newImage: image)
         }
     }
     

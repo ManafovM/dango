@@ -9,6 +9,8 @@ import UIKit
 import AVKit
 
 class VideoInfoView: UIView {
+    weak var delegate: VideoInfoViewDelegate?
+    
     let video: Video
     let episodes: [Episode]
     
@@ -95,7 +97,7 @@ class VideoInfoView: UIView {
         
         var buttonTitle: AttributedString
         if !episodes.isEmpty {
-            buttonTitle = AttributedString("第\(getCurrentEpisodeNum() + 1)話を再生")
+            buttonTitle = AttributedString("第\(currentEpisodeNum + 1)話を再生")
         } else {
             buttonTitle = AttributedString("再生")
         }
@@ -184,6 +186,13 @@ class VideoInfoView: UIView {
 }
 
 extension VideoInfoView {
+    var currentEpisodeNum: Int {
+        if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == video.id }) {
+            return watchHistory.currentEpisodeNum
+        }
+        return 0
+    }
+    
     func playAudio(audioUrl: String) {
         guard let audioUrl = URL(string: audioUrl) else { return }
         
@@ -203,7 +212,7 @@ extension VideoInfoView {
     func setupVideoPlayer() {
         let videoUrl: URL
         if !episodes.isEmpty {
-            videoUrl = URL(string: episodes[getCurrentEpisodeNum()].videoUrl)!
+            videoUrl = URL(string: episodes[currentEpisodeNum].videoUrl)!
         } else {
             videoUrl = URL(string: video.videoUrl)!
         }
@@ -214,27 +223,12 @@ extension VideoInfoView {
         playerViewController.player = videoPlayer
     }
     
-    func getCurrentEpisodeNum() -> Int {
-        if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == video.id }) {
-            return watchHistory.currentEpisodeNum
-        }
-        return 0
-    }
-    
     @objc func playButtonTapped(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.1) {
             sender.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
             sender.configuration?.baseBackgroundColor = sender.configuration?.baseBackgroundColor?.withAlphaComponent(0.7)
         } completion: { _ in
-            if let viewController = self.getViewController() {
-                viewController.present(self.playerViewController, animated: true) {
-                    guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
-                    windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
-                    
-                    self.audioPlayer.pause()
-                    self.videoPlayer.play()
-                }
-            }
+            self.delegate?.playTapped(self)
             
             UIView.animate(withDuration: 0.2, delay: 0.05, options: [.curveEaseInOut]) {
                 sender.configuration?.baseBackgroundColor = sender.configuration?.baseBackgroundColor?.withAlphaComponent(1.0)
@@ -244,12 +238,11 @@ extension VideoInfoView {
     }
     
     @objc func episodesButtonTapped() {
-        let controller = EpisodeCollectionViewController(episodes: self.video.episodes.sorted(by: <))
-        controller.title = video.title
-        
-        if let viewController = self.getViewController(),
-           let navigationController = viewController.navigationController {
-            navigationController.pushViewController(controller, animated: true)
-        }
+        delegate?.episodesTapped()
     }
+}
+
+protocol VideoInfoViewDelegate: AnyObject {
+    func playTapped(_ view: VideoInfoView)
+    func episodesTapped()
 }

@@ -8,6 +8,8 @@
 import UIKit
 
 class LibraryButtonsView: UIView {
+    weak var delegate: LibraryButtonsViewDelegate?
+    
     var myListButton: ImageOnTopButton!
     var downloadsButton: ImageOnTopButton!
     var purchasedButton: ImageOnTopButton!
@@ -47,18 +49,9 @@ class LibraryButtonsView: UIView {
     }
     
     func setupMyListButton() {
-        myListButton = ImageOnTopButton(title: "マイリスト", backgroundColor: Color.lightBackground.value, imageName: "list.clipboard.fill", onTap: {
-            let myListController = MyListCollectionViewController()
-            myListController.title = "マイリスト"
-            
-            let videoIds = Settings.shared.myList.map { $0.id }
-            if !videoIds.isEmpty {
-                myListController.search(by: videoIds)
-            }
-            
-            if let controller = self.getViewController() {
-                controller.navigationController?.pushViewController(myListController, animated: true)
-            }
+        myListButton = ImageOnTopButton(title: "マイリスト", backgroundColor: Color.lightBackground.value, imageName: "list.clipboard.fill", onTap: { [weak self] in
+            guard let self else { return }
+            delegate?.myListTapped()
         })
         stackView.addArrangedSubview(myListButton)
     }
@@ -72,4 +65,8 @@ class LibraryButtonsView: UIView {
         purchasedButton = ImageOnTopButton(title: "購入済み", backgroundColor: Color.lightBackground.value, imageName: "bag.fill", onTap: { })
         stackView.addArrangedSubview(purchasedButton)
     }
+}
+
+protocol LibraryButtonsViewDelegate: AnyObject {
+    func myListTapped()
 }

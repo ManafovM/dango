@@ -66,10 +66,11 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
         let episode = episodes[indexPath.item]
         setupVideoPlayer(videoUrl: episode.videoUrl)
         
-        present(self.playerViewController, animated: true) {
-            guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
+        present(playerViewController, animated: true) { [weak self] in
+            guard let self, let windowScene = playerViewController.view.window?.windowScene else { return }
+            
             windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
-            self.videoPlayer.play()
+            videoPlayer.play()
             
             Settings.shared.watched(videoId: episode.videoId, episodeNum: episode.number, timestampSec: 0)
         }

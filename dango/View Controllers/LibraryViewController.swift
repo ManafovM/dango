@@ -48,6 +48,7 @@ class LibraryViewController: BaseViewController {
     }
     
     func setupLibraryButtonsView() {
+        buttonsView.delegate = self
         view.addSubview(buttonsView)
         buttonsView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -89,5 +90,19 @@ class LibraryViewController: BaseViewController {
             
             fetchVideosTask = nil
         }
+    }
+}
+
+extension LibraryViewController: LibraryButtonsViewDelegate {
+    func myListTapped() {
+        let myListController = MyListCollectionViewController()
+        myListController.title = "マイリスト"
+        
+        let videoIds = Settings.shared.myList.map { $0.id }
+        if !videoIds.isEmpty {
+            myListController.search(by: videoIds)
+        }
+        
+        navigationController?.pushViewController(myListController, animated: true)
     }
 }

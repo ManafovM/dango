@@ -52,7 +52,7 @@ class VideoDetailsButtonsView: UIView {
         myListButton = ImageOnTopButton(title: "マイリスト", imageName: "plus", tappedImageName: "checkmark", onTap: { [weak self] in
             guard let self = self else { return }
             
-            let added = Settings.shared.toggleMyList(self.video)
+            let added = Settings.shared.toggleMyList(video)
             if added {
                 print("マイリストに追加されました")
             } else {
