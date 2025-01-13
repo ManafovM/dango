@@ -97,12 +97,6 @@ extension LibraryViewController: LibraryButtonsViewDelegate {
     func myListTapped() {
         let myListController = MyListCollectionViewController()
         myListController.title = "マイリスト"
-        
-        let videoIds = Settings.shared.myList.map { $0.id }
-        if !videoIds.isEmpty {
-            myListController.search(by: videoIds)
-        }
-        
         navigationController?.pushViewController(myListController, animated: true)
     }
 }

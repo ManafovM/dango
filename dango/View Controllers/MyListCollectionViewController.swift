@@ -11,17 +11,39 @@ class MyListCollectionViewController: SearchResultsCollectionViewController {
     var videosRequestTask: Task<Void, Never>? = nil
     deinit { videosRequestTask?.cancel() }
     
-    func search(by videoIds: [Int]) {
-        videosRequestTask?.cancel()
-        videosRequestTask = Task {
-            if let videos = try? await VideosByIdsRequest(ids: videoIds).send() {
-                self.model.videos = videos
-            } else {
-                self.model.videos = []
+    var videoIds: [Int] {
+        Settings.shared.myList.map { $0.id }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(myListUpdated), name: VideoDetailsButtonsView.myListUpdatedNotification, object: nil)
+        
+        search()
+    }
+    
+    func search() {
+        if videoIds.isEmpty {
+            model.videos = []
+            updateCollectionView()
+        } else {
+            videosRequestTask?.cancel()
+            videosRequestTask = Task {
+                if let videos = try? await VideosByIdsRequest(ids: videoIds).send() {
+                    self.model.videos = videos
+                } else {
+                    self.model.videos = []
+                }
+                self.updateCollectionView()
+                
+                videosRequestTask = nil
             }
-            self.updateCollectionView()
-            
-            videosRequestTask = nil
         }
+    }
+    
+    @objc
+    func myListUpdated() {
+        search()
     }
 }
