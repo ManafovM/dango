@@ -10,6 +10,7 @@ import AVKit
 
 class VideoInfoView: UIView {
     let video: Video
+    let episodes: [Episode]
     
     let stackView: UIStackView = {
         let stack = UIStackView()
@@ -20,18 +21,23 @@ class VideoInfoView: UIView {
         return stack
     }()
     
+    var descriptionLabel = UILabel()
+    var playButton = UIButton()
+    var episodesButton = UIButton()
+    
     var audioPlayer: AVPlayer!
     var videoPlayer: AVPlayer!
     var playerViewController: AVPlayerViewController!
     
     init(frame: CGRect, video: Video) {
         self.video = video
+        self.episodes = video.episodes
         super.init(frame: frame)
         
         setupStackView()
         setupVideoInfo()
         playAudio(audioUrl: video.audioUrl)
-        setupVideoPlayer(videoUrl: video.videoUrl)
+        setupVideoPlayer()
     }
     
     required init?(coder: NSCoder) {
@@ -50,35 +56,46 @@ class VideoInfoView: UIView {
     }
     
     func setupVideoInfo() {
-        // MARK: Title label setup
+        setupTitleLabel()
+        setupYearLabel()
+        setupDescriptionLabel()
+        playButtonSetup()
+        episodesButtonSetup()
+        myListRatingShareButtonsSetup()
+        setupDivider()
+        synopsisLabelSetup()
+        setupDivider()
+    }
+    
+    func setupTitleLabel() {
         let titleLabel = UILabel()
         titleLabel.text = video.title
         titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         titleLabel.numberOfLines = 0
         stackView.addArrangedSubview(titleLabel)
-        
-        // MARK: Year label setup
+    }
+    
+    func setupYearLabel() {
         let yearLabel = UILabel()
         yearLabel.text = "\(video.year)年"
         yearLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
         yearLabel.textColor = .secondaryLabel
         stackView.addArrangedSubview(yearLabel)
-        
-        // MARK: Description label setup
-        let descriptionLabel = UILabel()
+    }
+    
+    func setupDescriptionLabel() {
         descriptionLabel.text = video.description
         descriptionLabel.numberOfLines = 0
         descriptionLabel.font = UIFont.systemFont(ofSize: 18, weight: .light)
         stackView.addArrangedSubview(descriptionLabel)
-        
-        // MARK: Play button setup
-        let playButton = UIButton()
+    }
+    
+    func playButtonSetup() {
         var config = UIButton.Configuration.filled()
         
-        let episodes = video.episodes
         var buttonTitle: AttributedString
         if !episodes.isEmpty {
-            buttonTitle = AttributedString("第\(getCurrentEpisodeNum())話を再生")
+            buttonTitle = AttributedString("第\(getCurrentEpisodeNum() + 1)話を再生")
         } else {
             buttonTitle = AttributedString("再生")
         }
@@ -95,34 +112,51 @@ class VideoInfoView: UIView {
         config.baseBackgroundColor = .white
         config.cornerStyle = .medium
         playButton.configuration = config
-        stackView.addArrangedSubview(playButton)
+        playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+        playButton.translatesAutoresizingMaskIntoConstraints = false
         
-        // MARK: Episodes button setup
-        let episodesButton = UIButton()
+        stackView.addArrangedSubview(playButton)
+    }
+    
+    func episodesButtonSetup() {
         if !episodes.isEmpty {
-            var config2 = UIButton.Configuration.filled()
-            config2.title = "エピゾードを選択(全\(episodes.count)話)"
-            config2.image = UIImage(systemName: "rectangle.stack")
-            config2.imagePadding = 8.0
-            config2.baseForegroundColor = .white
-            config2.baseBackgroundColor = Color.lightBackground.value
-            config2.cornerStyle = .medium
-            config2.background.strokeColor = .white
-            config2.background.strokeWidth = 1
-            episodesButton.configuration = config2
+            var config = UIButton.Configuration.filled()
+            config.title = "エピゾードを選択(全\(episodes.count)話)"
+            config.image = UIImage(systemName: "rectangle.stack")
+            config.imagePadding = 8.0
+            config.baseForegroundColor = .white
+            config.baseBackgroundColor = Color.lightBackground.value
+            config.cornerStyle = .medium
+            config.background.strokeColor = .white
+            config.background.strokeWidth = 1
+            episodesButton.configuration = config
+            episodesButton.addTarget(self, action: #selector(episodesButtonTapped), for: .touchUpInside)
+            episodesButton.translatesAutoresizingMaskIntoConstraints = false
+            
             stackView.addArrangedSubview(episodesButton)
             
-            episodesButton.addTarget(self, action: #selector(episodesButtonTapped), for: .touchUpInside)
+            // MARK: Setup content insets for play button and episodes button
+            NSLayoutConstraint.activate([
+                playButton.heightAnchor.constraint(equalToConstant: 44),
+                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
+                episodesButton.heightAnchor.constraint(equalToConstant: 44),
+                episodesButton.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12)
+            ])
+        } else {
+            // MARK: Setup content insets for play button
+            NSLayoutConstraint.activate([
+                playButton.heightAnchor.constraint(equalToConstant: 44),
+                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16)
+            ])
         }
-        
-        // MARK: My List, Rating, Share buttons setup
+    }
+    
+    func myListRatingShareButtonsSetup() {
         let buttonsView = VideoDetailsButtonsView(video: video)
         stackView.addArrangedSubview(buttonsView)
-        
-        // MARK: Synopsis label setup
-        let divider = HorizontalDivider()
-        stackView.addArrangedSubview(divider)
-        
+    }
+    
+    func synopsisLabelSetup() {
         let synopsisHeaderLabel = UILabel()
         synopsisHeaderLabel.text = "ストーリー"
         synopsisHeaderLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -133,30 +167,11 @@ class VideoInfoView: UIView {
         synopsis.numberOfLines = 0
         synopsis.font = UIFont.systemFont(ofSize: 16, weight: .light)
         stackView.addArrangedSubview(synopsis)
-
-        let divider2 = HorizontalDivider()
-        stackView.addArrangedSubview(divider2)
-        
-        if episodes.isEmpty {
-            // MARK: Setup content insets for play button
-            playButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                playButton.heightAnchor.constraint(equalToConstant: 44),
-                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16)
-            ])
-        } else {
-            // MARK: Setup content insets for play button and episodes button
-            playButton.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                playButton.heightAnchor.constraint(equalToConstant: 44),
-                playButton.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 16),
-                episodesButton.heightAnchor.constraint(equalToConstant: 44),
-                episodesButton.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 12)
-            ])
-        }
-        
-        // MARK: Play button's on tapped action
-        playButton.addTarget(self, action: #selector(playButtonTapped(_:)), for: .touchUpInside)
+    }
+    
+    func setupDivider() {
+        let divider = HorizontalDivider()
+        stackView.addArrangedSubview(divider)
     }
     
     deinit {
@@ -185,8 +200,14 @@ extension VideoInfoView {
         audioPlayer.play()
     }
     
-    func setupVideoPlayer(videoUrl: String) {
-        let videoUrl = URL(string: videoUrl)!
+    func setupVideoPlayer() {
+        let videoUrl: URL
+        if !episodes.isEmpty {
+            videoUrl = URL(string: episodes[getCurrentEpisodeNum()].videoUrl)!
+        } else {
+            videoUrl = URL(string: video.videoUrl)!
+        }
+        
         videoPlayer = AVPlayer(url: videoUrl)
         
         playerViewController = AVPlayerViewController()
@@ -197,7 +218,7 @@ extension VideoInfoView {
         if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == video.id }) {
             return watchHistory.currentEpisodeNum
         }
-        return 1
+        return 0
     }
     
     @objc func playButtonTapped(_ sender: UIButton) {
@@ -212,9 +233,6 @@ extension VideoInfoView {
                     
                     self.audioPlayer.pause()
                     self.videoPlayer.play()
-                    
-                    // TODO: Set episodes and timestamp
-                    Settings.shared.watched(videoId: self.video.id, episodeNum: 2, timestampSec: 3)
                 }
             }
             

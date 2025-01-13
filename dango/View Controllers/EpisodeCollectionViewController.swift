@@ -70,6 +70,8 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
             guard let windowScene = self.playerViewController.view.window?.windowScene else { return }
             windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
             self.videoPlayer.play()
+            
+            Settings.shared.watched(videoId: episode.videoId, episodeNum: episode.number, timestampSec: 0)
         }
     }
 }
