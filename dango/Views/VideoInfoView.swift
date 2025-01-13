@@ -31,6 +31,22 @@ class VideoInfoView: UIView {
     var videoPlayer: AVPlayer!
     var playerViewController: AVPlayerViewController!
     
+    var playButtonTitle: AttributedString {
+        var buttonTitle: AttributedString
+        if !episodes.isEmpty {
+            buttonTitle = AttributedString("第\(currentEpisodeNum + 1)話を再生")
+        } else {
+            buttonTitle = AttributedString("再生")
+        }
+        buttonTitle.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        
+        var buttonSubtitle = AttributedString(" (\(video.duration)分)")
+        buttonSubtitle.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        buttonTitle.append(buttonSubtitle)
+        
+        return buttonTitle
+    }
+    
     init(frame: CGRect, video: Video) {
         self.video = video
         self.episodes = video.episodes
@@ -94,20 +110,7 @@ class VideoInfoView: UIView {
     
     func playButtonSetup() {
         var config = UIButton.Configuration.filled()
-        
-        var buttonTitle: AttributedString
-        if !episodes.isEmpty {
-            buttonTitle = AttributedString("第\(currentEpisodeNum + 1)話を再生")
-        } else {
-            buttonTitle = AttributedString("再生")
-        }
-        buttonTitle.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        
-        var buttonSubtitle = AttributedString(" (\(video.duration)分)")
-        buttonSubtitle.font = UIFont.systemFont(ofSize: 12, weight: .light)
-        
-        buttonTitle.append(buttonSubtitle)
-        config.attributedTitle = buttonTitle
+        config.attributedTitle = playButtonTitle
         config.image = UIImage(systemName: "play.fill")
         config.imagePadding = 8.0
         config.baseForegroundColor = Color.darkBackground.value
@@ -118,6 +121,10 @@ class VideoInfoView: UIView {
         playButton.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.addArrangedSubview(playButton)
+    }
+    
+    func updatePlayButtonTitle() {
+        playButton.configuration?.attributedTitle = playButtonTitle
     }
     
     func episodesButtonSetup() {

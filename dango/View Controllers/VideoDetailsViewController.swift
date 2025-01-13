@@ -35,6 +35,9 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(episodeUpdated), name: EpisodeCollectionViewController.episodeUpdatedNotification, object: nil)
+        
         setupView()
         fetchRelatedVideos()
     }
@@ -145,6 +148,11 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         let spacing = 12
         let headerHeight = 36
         return CGFloat(relatedVideosCount * cellHeight + (relatedVideosCount - 1) * spacing + headerHeight)
+    }
+    
+    @objc
+    func episodeUpdated() {
+        videoInfoView.updatePlayButtonTitle()
     }
 }
 

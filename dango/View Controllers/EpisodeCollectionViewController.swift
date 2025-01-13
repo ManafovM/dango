@@ -9,6 +9,8 @@ import UIKit
 import AVKit
 
 class EpisodeCollectionViewController: BaseCollectionViewController {
+    static let episodeUpdatedNotification = Notification.Name("EpisodeCollectionViewController.episodeUpdated")
+    
     let episodes: [Episode]!
     var videoPlayer: AVPlayer!
     var playerViewController = AVPlayerViewController()
@@ -73,6 +75,7 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
             videoPlayer.play()
             
             Settings.shared.watched(videoId: episode.videoId, episodeNum: episode.number, timestampSec: 0)
+            NotificationCenter.default.post(name: EpisodeCollectionViewController.episodeUpdatedNotification, object: nil)
         }
     }
 }
