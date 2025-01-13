@@ -224,9 +224,6 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
 extension VideoDetailsViewController: VideoInfoViewDelegate {
     func playTapped(_ view: VideoInfoView) {
         present(view.playerViewController, animated: true) {
-            guard let windowScene = view.playerViewController.view.window?.windowScene else { return }
-            windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeRight))
-            
             view.audioPlayer.pause()
             view.videoPlayer.play()
             

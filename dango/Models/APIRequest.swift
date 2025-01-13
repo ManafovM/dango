@@ -17,29 +17,10 @@ protocol APIRequest {
     var urlString: String? { get }
 }
 
-struct Environment {
-    static var env: String {
-        guard let env = ProcessInfo.processInfo.environment["ENVIRONMENT"] else {
-            fatalError("ENVIRONMENT environment variable is not set.")
-        }
-        return env
-    }
-}
-
 extension APIRequest {
-    var host: String {
-        guard let host = ProcessInfo.processInfo.environment["API_HOST"] else {
-            fatalError("API_HOST environment variable is not set.")
-        }
-        return host
-    }
+    var host: String { Property(key: "API_HOST").value }
     var port: Int { 1337 }
-    var apiKey: String {
-        guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
-            fatalError("API_KEY environment variable is not set.")
-        }
-        return apiKey
-    }
+    var apiKey: String { Property(key: "API_KEY").value }
 }
 
 extension APIRequest {
@@ -52,7 +33,7 @@ extension APIRequest {
     var request: URLRequest {
         var components = URLComponents()
         
-        if Environment.env == "local" {
+        if Property(key: "ENVIRONMENT").value == "local" {
             components.scheme = "http"
             components.port = port
         } else {
