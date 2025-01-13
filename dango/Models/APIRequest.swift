@@ -16,6 +16,15 @@ protocol APIRequest {
     var postData: Data? { get }
 }
 
+struct Environment {
+    static var env: String {
+        guard let env = ProcessInfo.processInfo.environment["ENVIRONMENT"] else {
+            fatalError("ENVIRONMENT environment variable is not set.")
+        }
+        return env
+    }
+}
+
 extension APIRequest {
     var host: String {
         guard let host = ProcessInfo.processInfo.environment["API_HOST"] else {
@@ -23,13 +32,7 @@ extension APIRequest {
         }
         return host
     }
-    var port: Int {
-        guard let portString = ProcessInfo.processInfo.environment["API_PORT"],
-              let port = Int(portString) else {
-            fatalError("API_PORT environment variable is not set or incorrect.")
-        }
-        return port
-    }
+    var port: Int { 1337 }
     var apiKey: String {
         guard let apiKey = ProcessInfo.processInfo.environment["API_KEY"] else {
             fatalError("API_KEY environment variable is not set.")
@@ -49,7 +52,11 @@ extension APIRequest {
         
         components.scheme = "https"
         components.host = host
-        components.port = port
+        
+        if Environment.env == "local" {
+            components.port = port
+        }
+        
         components.path = path
         components.queryItems = queryItems
         
