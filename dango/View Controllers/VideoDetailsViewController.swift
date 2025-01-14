@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreMedia
 
 class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     var videoRequestTask: Task<Void, Never>? = nil
@@ -152,6 +153,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     @objc
     func updateEpisode() {
+        videoInfoView.currentEpisodeNum = Settings.shared.watchHistory.first(where: { $0.videoId == video.id })?.currentEpisodeNum ?? 0
         videoInfoView.updatePlayButtonTitle()
     }
 }
@@ -227,7 +229,10 @@ extension VideoDetailsViewController: VideoInfoViewDelegate {
             view.audioPlayer.pause()
             view.videoPlayer.play()
             
-            Settings.shared.watched(videoId: view.video.id, episodeNum: view.currentEpisodeNum, timestampSec: 0)
+            if let timestamp = Settings.shared.watchHistory.first(where: { $0.videoId == self.video.id })?.currentEpisodeTimestampSec {
+                let seekTime = CMTime(seconds: Double(timestamp), preferredTimescale: 600)
+                view.videoPlayer.seek(to: seekTime)
+            }
         }
     }
     

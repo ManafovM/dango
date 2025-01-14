@@ -14,6 +14,14 @@ class VideoInfoView: UIView {
     let video: Video
     let episodes: [Episode]
     
+    private var _currentEpisodeNum: Int
+    var currentEpisodeNum: Int {
+        get { _currentEpisodeNum }
+        set {
+            _currentEpisodeNum = newValue
+        }
+    }
+    
     let stackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
@@ -50,6 +58,7 @@ class VideoInfoView: UIView {
     init(frame: CGRect, video: Video) {
         self.video = video
         self.episodes = video.episodes
+        self._currentEpisodeNum = Settings.shared.watchHistory.first(where: { $0.videoId == video.id })?.currentEpisodeNum ?? 0
         super.init(frame: frame)
         
         setupStackView()
@@ -193,13 +202,6 @@ class VideoInfoView: UIView {
 }
 
 extension VideoInfoView {
-    var currentEpisodeNum: Int {
-        if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == video.id }) {
-            return watchHistory.currentEpisodeNum
-        }
-        return 0
-    }
-    
     func playAudio(audioUrl: String) {
         guard let audioUrl = URL(string: audioUrl) else { return }
         
@@ -228,6 +230,7 @@ extension VideoInfoView {
         
         playerViewController = AVPlayerViewController()
         playerViewController.player = videoPlayer
+        playerViewController.delegate = self
     }
     
     @objc func playButtonTapped(_ sender: UIButton) {
@@ -246,6 +249,13 @@ extension VideoInfoView {
     
     @objc func episodesButtonTapped() {
         delegate?.episodesTapped()
+    }
+}
+
+extension VideoInfoView: AVPlayerViewControllerDelegate {
+    func playerViewController(_ playerViewController: AVPlayerViewController, willEndFullScreenPresentationWithAnimationCoordinator coordinator: any UIViewControllerTransitionCoordinator) {
+        let currentTime = videoPlayer.currentTime().seconds
+        Settings.shared.watched(videoId: self.video.id, episodeNum: self.currentEpisodeNum, timestampSec: Int(currentTime))
     }
 }
 

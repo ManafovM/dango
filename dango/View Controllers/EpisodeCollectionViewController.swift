@@ -10,6 +10,7 @@ import AVKit
 
 class EpisodeCollectionViewController: BaseCollectionViewController {
     let episodes: [Episode]!
+    var currentEpisode: Episode!
     var videoPlayer: AVPlayer!
     var playerViewController = AVPlayerViewController()
     
@@ -41,6 +42,7 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
         let videoUrl = URL(string: videoUrl)!
         videoPlayer = AVPlayer(url: videoUrl)
         playerViewController.player = videoPlayer
+        playerViewController.delegate = self
     }
 
     // MARK: UICollectionViewDataSource
@@ -63,14 +65,24 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let episode = episodes[indexPath.item]
-        setupVideoPlayer(videoUrl: episode.videoUrl)
+        currentEpisode = episodes[indexPath.item]
+        setupVideoPlayer(videoUrl: currentEpisode.videoUrl)
         
         present(playerViewController, animated: true) { [weak self] in
             guard let self else { return }
             videoPlayer.play()
             
-            Settings.shared.watched(videoId: episode.videoId, episodeNum: episode.number, timestampSec: 0)
+            if let timestamp = Settings.shared.watchHistory.first(where: { $0.videoId == self.currentEpisode.videoId })?.currentEpisodeTimestampSec {
+                let seekTime = CMTime(seconds: Double(timestamp), preferredTimescale: 600)
+                videoPlayer.seek(to: seekTime)
+            }
         }
+    }
+}
+
+extension EpisodeCollectionViewController: AVPlayerViewControllerDelegate {
+    func playerViewController(_ playerViewController: AVPlayerViewController, willEndFullScreenPresentationWithAnimationCoordinator coordinator: any UIViewControllerTransitionCoordinator) {
+        let currentTime = videoPlayer.currentTime().seconds
+        Settings.shared.watched(videoId: self.currentEpisode.videoId, episodeNum: self.currentEpisode.number, timestampSec: Int(currentTime))
     }
 }
