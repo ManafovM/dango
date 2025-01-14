@@ -35,9 +35,9 @@ class VideoDetailsTopImageView: FadeEdgeImageView {
         addSubview(visualEffectView)
     }
     
-    func loadImage(from path: String) {
+    func loadImage(from url: String) {
         imageRequestTask = Task {
-            if let image = try? await ImageRequest(imagePath: path).send() {
+            if let image = try? await ImageRequest(imageUrl: url).send() {
                 self.image = image
             }
             imageRequestTask = nil

@@ -13,14 +13,14 @@ class CloseButton: UIBarButtonItem {
     init(onTap: (() -> Void)? = nil) {
         self.onTap = onTap
         super.init()
-        setupCloseButton()
+        setupButton()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCloseButton() {
+    func setupButton() {
         let closeButton = UIButton(type: .custom)
         closeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         

@@ -14,31 +14,44 @@ protocol APIRequest {
     var queryItems: [URLQueryItem]? { get }
     var request: URLRequest { get }
     var postData: Data? { get }
+    var urlString: String? { get }
 }
 
 extension APIRequest {
-    var host: String { "192.168.10.101" }
+    var host: String { Property(key: "API_HOST").value }
     var port: Int { 1337 }
+    var apiKey: String { Property(key: "API_KEY").value }
 }
 
 extension APIRequest {
     var queryItems: [URLQueryItem]? { nil }
     var postData: Data? { nil }
+    var urlString: String? { nil }
 }
 
 extension APIRequest {
     var request: URLRequest {
         var components = URLComponents()
         
-        components.scheme = "http"
+        if Property(key: "ENVIRONMENT").value == "local" {
+            components.scheme = "http"
+            components.port = port
+        } else {
+            components.scheme = "https"
+        }
         components.host = host
-        components.port = port
         components.path = path
         components.queryItems = queryItems
         
-        var request = URLRequest(url: components.url!)
+        var request: URLRequest
+        if let urlString,
+           let url = URL(string: urlString) {
+            request = URLRequest(url: url)
+        } else {
+            request = URLRequest(url: components.url!)
+        }
         
-        request.setValue("bearer f13e2611ed58e4fc873ed32d6906d7c88b6e5d062d6486902e2aadb0aec0d334dbc5770320bc2a6f77e1e9d5c74e1b4d22141e6a23694711961fc7ed0b3ab3a3f623db6abb47d47f3ddc4f7c0438223c9516a1f1da7959c6b6a414b4d0a6b8c7fe3e9784dd07df6fea992afeeabb021fe35530b4e97ed94ec10322ac7c437dcb", forHTTPHeaderField: "Authorization")
+        request.setValue(apiKey, forHTTPHeaderField: "Authorization")
         
         if let data = postData {
             request.httpBody = data

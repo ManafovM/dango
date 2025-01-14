@@ -20,6 +20,6 @@ extension UICollectionViewDiffableDataSource {
             snapshot.appendItems(sectionItems, toSection: sectionID)
         }
         
-        self.apply(snapshot, animatingDifferences: animatingDifferences)
+        apply(snapshot, animatingDifferences: animatingDifferences)
     }
 }

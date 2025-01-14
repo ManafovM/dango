@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreMedia
 
 class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     var videoRequestTask: Task<Void, Never>? = nil
@@ -13,7 +14,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     let topImageView: VideoDetailsTopImageView
     let scrollView = UIScrollView()
-    let videoDetailsView: VideoDetailsView
+    let videoInfoView: VideoInfoView
     var castCollectionViewController: CastCollectionViewController!
     var castCollectionView: UICollectionView!
     var relatedVideosCollectionView: UICollectionView!
@@ -25,7 +26,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     init?(coder: NSCoder, video: Video) {
         self.video = video
         self.topImageView = VideoDetailsTopImageView(frame: .zero)
-        self.videoDetailsView = VideoDetailsView(frame: .zero, video: video)
+        self.videoInfoView = VideoInfoView(frame: .zero, video: video)
         super.init(coder: coder)
     }
     
@@ -35,6 +36,9 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateEpisode), name: Settings.watchHistoryUpdatedNotification, object: nil)
+        
         setupView()
         fetchRelatedVideos()
     }
@@ -42,24 +46,17 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        if videoDetailsView.audioPlayer.rate != 0.0 {
-            videoDetailsView.audioPlayer.pause()
+        if videoInfoView.audioPlayer.rate != 0.0 {
+            videoInfoView.audioPlayer.pause()
         }
     }
     
     func setupView() {
-        setupBackBarButton()
         setupTopImageView()
         setupScrollView()
-        setupVideoDetailsView()
+        setupVideoInfoView()
         setupCastCollectionView()
         setupRelatedVideosView()
-    }
-    
-    func setupBackBarButton() {
-        let backBarButton = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        backBarButton.tintColor = .white
-        navigationItem.backBarButtonItem = backBarButton
     }
     
     func setupTopImageView() {
@@ -83,30 +80,27 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
         ])
     }
     
-    func setupVideoDetailsView() {
-        scrollView.addSubview(videoDetailsView)
-        videoDetailsView.translatesAutoresizingMaskIntoConstraints = false
+    func setupVideoInfoView() {
+        videoInfoView.delegate = self
+        scrollView.addSubview(videoInfoView)
+        videoInfoView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            videoDetailsView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.7),
-            videoDetailsView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            videoDetailsView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            videoDetailsView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            videoInfoView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topImageView.frame.height * 0.7),
+            videoInfoView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            videoInfoView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            videoInfoView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
     
     func setupCastCollectionView() {
-        let storyBoard = UIStoryboard(name: "Main", bundle: Bundle(for: CastCollectionViewController.self))
-        castCollectionViewController = storyBoard.instantiateViewController(identifier: "CastCollectionViewController") { coder in
-            CastCollectionViewController(coder: coder, cast: self.video.cast)
-        }
-        
+        castCollectionViewController = CastCollectionViewController(cast: video.cast)
         castCollectionView = castCollectionViewController.collectionView
         castCollectionView.isScrollEnabled = false
         scrollView.addSubview(castCollectionView)
         
         castCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            castCollectionView.topAnchor.constraint(equalTo: videoDetailsView.bottomAnchor),
+            castCollectionView.topAnchor.constraint(equalTo: videoInfoView.bottomAnchor),
             castCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             castCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             castCollectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
@@ -151,10 +145,16 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     
     func calculateHeightOfRelatedVideosCollectionView() -> CGFloat {
         let cellHeight = Int(view.frame.width * 0.5 / 16 * 9)
-        let relatedVideosCount = Int(ceil(Double(relatedVideosCollectionView.numberOfItems(inSection: 0)) / 2))
+        let relatedVideosCount = max(1, Int(ceil(Double(relatedVideosCollectionView.numberOfItems(inSection: 0)) / 2)))
         let spacing = 12
         let headerHeight = 36
         return CGFloat(relatedVideosCount * cellHeight + (relatedVideosCount - 1) * spacing + headerHeight)
+    }
+    
+    @objc
+    func updateEpisode() {
+        videoInfoView.currentEpisodeNum = Settings.shared.watchHistory.first(where: { $0.videoId == video.id })?.currentEpisodeNum ?? 0
+        videoInfoView.updatePlayButtonTitle()
     }
 }
 
@@ -212,13 +212,34 @@ extension VideoDetailsViewController: UICollectionViewDelegate, UICollectionView
     func fetchRelatedVideos() {
         videoRequestTask?.cancel()
         videoRequestTask = Task {
-            if let video = try? await VideoByIdRequest(id: video.id).send() {
-                self.relatedVideos = video[0].relatedVideos ?? []
+            if let video = try? await VideosByIdsRequest(ids: [video.id]).send() {
+                self.relatedVideos = video.first?.relatedVideos ?? []
             }
             self.relatedVideosCollectionView.reloadSections(IndexSet(integer: 0))
             self.relatedVideosHeightConstraint.constant = calculateHeightOfRelatedVideosCollectionView()
             
             videoRequestTask = nil
         }
+    }
+}
+
+extension VideoDetailsViewController: VideoInfoViewDelegate {
+    func playTapped(_ view: VideoInfoView) {
+        present(view.playerViewController, animated: true) {
+            view.audioPlayer.pause()
+            view.videoPlayer.play()
+            
+            if let timestamp = Settings.shared.watchHistory.first(where: { $0.videoId == self.video.id })?.currentEpisodeTimestampSec {
+                let seekTime = CMTime(seconds: Double(timestamp), preferredTimescale: 600)
+                view.videoPlayer.seek(to: seekTime)
+            }
+        }
+    }
+    
+    func episodesTapped() {
+        let controller = EpisodeCollectionViewController(episodes: video.episodes.sorted(by: <))
+        controller.title = video.title
+
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

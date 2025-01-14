@@ -6,7 +6,6 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -339,56 +338,6 @@
             </objects>
             <point key="canvasLocation" x="-42" y="1145"/>
         </scene>
-        <!--Cast Collection View Controller-->
-        <scene sceneID="tv6-ZL-MPk">
-            <objects>
-                <collectionViewController storyboardIdentifier="CastCollectionViewController" id="bZR-5j-Wc4" customClass="CastCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="WRA-M1-V1V">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8tY-Cq-Va0">
-                            <size key="itemSize" width="128" height="128"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells/>
-                        <connections>
-                            <outlet property="dataSource" destination="bZR-5j-Wc4" id="22L-YE-ZsT"/>
-                            <outlet property="delegate" destination="bZR-5j-Wc4" id="Loq-wz-LZH"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vzk-Ar-Gn7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1053" y="1830"/>
-        </scene>
-        <!--Episode Collection View Controller-->
-        <scene sceneID="pqI-jG-eNw">
-            <objects>
-                <collectionViewController storyboardIdentifier="EpisodeCollectionViewController" id="rUO-Xh-eME" customClass="EpisodeCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="6sJ-Mn-2Ws">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9ob-MO-GTF">
-                            <size key="itemSize" width="393" height="115"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells/>
-                        <connections>
-                            <outlet property="dataSource" destination="rUO-Xh-eME" id="u0r-2A-Vtl"/>
-                            <outlet property="delegate" destination="rUO-Xh-eME" id="6Ct-WN-7cS"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LJM-ob-HgG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1053" y="2501"/>
-        </scene>
         <!--検索-->
         <scene sceneID="bK5-5a-kaY">
             <objects>
@@ -436,30 +385,21 @@
             </objects>
             <point key="canvasLocation" x="-40" y="339"/>
         </scene>
-        <!--Search Results Collection View Controller-->
-        <scene sceneID="oIF-Qc-zCq">
+        <!--ライブラリ-->
+        <scene sceneID="b6B-iN-BXH">
             <objects>
-                <collectionViewController storyboardIdentifier="SearchResultsCollectionViewController" id="GVM-5T-IwK" customClass="SearchResultsCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="BH1-pz-YYY">
+                <viewController id="Z3q-N7-NAe" customClass="LibraryViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZsA-XR-Sb0">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="sTm-3l-Aui"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jtQ-Sb-Ydr">
-                            <size key="itemSize" width="128" height="128"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells/>
-                        <connections>
-                            <outlet property="dataSource" destination="GVM-5T-IwK" id="V1v-wV-q6h"/>
-                            <outlet property="delegate" destination="GVM-5T-IwK" id="v9g-ef-aRZ"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sYS-IZ-uzB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="ライブラリ" id="MS6-qI-35J"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lna-iB-bWj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-40" y="1830"/>
+            <point key="canvasLocation" x="984" y="339"/>
         </scene>
         <!--ライブラリ-->
         <scene sceneID="lnC-5Y-ige">
@@ -471,47 +411,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="j54-9K-aBZ" kind="relationship" relationship="rootViewController" id="DDB-pQ-gFR"/>
+                        <segue destination="Z3q-N7-NAe" kind="relationship" relationship="rootViewController" id="ixO-Lc-H1d"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8BP-3H-aT9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="985" y="-358"/>
-        </scene>
-        <!--ライブラリ-->
-        <scene sceneID="yKC-Yy-x31">
-            <objects>
-                <collectionViewController id="j54-9K-aBZ" customClass="LibraryCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Epe-XZ-huC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p7r-iu-mDd">
-                            <size key="itemSize" width="128" height="128"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="56Y-Fm-EVh">
-                                <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="sB7-kb-hqn">
-                                    <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </collectionViewCellContentView>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="j54-9K-aBZ" id="9De-xZ-Fi1"/>
-                            <outlet property="delegate" destination="j54-9K-aBZ" id="TVr-9z-ILG"/>
-                        </connections>
-                    </collectionView>
-                    <navigationItem key="navigationItem" title="ライブラリ" id="Eqt-P2-ONl"/>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fvr-LW-cnn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="985" y="339"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="2B2-7D-eVx">

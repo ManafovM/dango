@@ -8,7 +8,7 @@
 import UIKit
 
 class VideoCollectionViewController: BaseCollectionViewController {
-    var videoDetailsViewController: UIViewController!
+    var videoDetailsViewController: VideoDetailsViewController!
     
     var featuredRequestTask: Task<Void, Never>? = nil
     var recommendationsRequestTask: Task<Void, Never>? = nil

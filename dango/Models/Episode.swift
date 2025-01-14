@@ -9,6 +9,7 @@ import Foundation
 
 struct Episode: Codable {
     let id: Int
+    let videoId: Int
     let number: Int
     let title: String
     let duration: Int
