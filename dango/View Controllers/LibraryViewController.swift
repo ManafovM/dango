@@ -19,6 +19,8 @@ class LibraryViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(fetchVideosForWatchHistory), name: Settings.watchHistoryUpdatedNotification, object: nil)
+        
         fetchVideosForWatchHistory()
         setupWatchHistoryView()
         setupLibraryButtonsView()
@@ -65,6 +67,7 @@ class LibraryViewController: BaseViewController {
         return CGFloat(cellHeight + spacing + headerHeight)
     }
     
+    @objc
     func fetchVideosForWatchHistory() {
         fetchVideosTask?.cancel()
         fetchVideosTask = Task {

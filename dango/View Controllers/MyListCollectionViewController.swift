@@ -18,7 +18,7 @@ class MyListCollectionViewController: SearchResultsCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(myListUpdated), name: VideoDetailsButtonsView.myListUpdatedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMyList), name: Settings.myListUpdatedNotification, object: nil)
         
         search()
     }
@@ -43,7 +43,7 @@ class MyListCollectionViewController: SearchResultsCollectionViewController {
     }
     
     @objc
-    func myListUpdated() {
+    func updateMyList() {
         search()
     }
 }

@@ -36,7 +36,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(episodeUpdated), name: EpisodeCollectionViewController.episodeUpdatedNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateEpisode), name: Settings.watchHistoryUpdatedNotification, object: nil)
         
         setupView()
         fetchRelatedVideos()
@@ -151,7 +151,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     @objc
-    func episodeUpdated() {
+    func updateEpisode() {
         videoInfoView.updatePlayButtonTitle()
     }
 }

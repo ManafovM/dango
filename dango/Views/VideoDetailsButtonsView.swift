@@ -8,8 +8,6 @@
 import UIKit
 
 class VideoDetailsButtonsView: UIView {
-    static let myListUpdatedNotification = Notification.Name("VideoDetailsButtonsView.myListUpdated")
-    
     let video: Video
     
     var myListButton: ImageOnTopButton!
@@ -62,7 +60,6 @@ class VideoDetailsButtonsView: UIView {
             }
             
             myListButton.toggleWithAnimation()
-            NotificationCenter.default.post(name: VideoDetailsButtonsView.myListUpdatedNotification, object: nil)
         })
         
         if Settings.shared.myList.contains(video) {

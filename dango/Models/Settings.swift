@@ -7,10 +7,15 @@
 
 import Foundation
 
-struct Settings {
+final class Settings {
+    static let watchHistoryUpdatedNotification = Notification.Name("Settings.watchHistoryUpdated")
+    static let myListUpdatedNotification = Notification.Name("Settings.myListUpdated")
+    
     static var shared = Settings()
     
     private let defaults = UserDefaults.standard
+    private let watchHistoryQueue = DispatchQueue(label: "com.dango.watchHistoryQueue", attributes: .concurrent)
+    private let myListQueue = DispatchQueue(label: "com.dango.myListQueue", attributes: .concurrent)
     
     private func archiveJSON<T: Encodable>(value: T, key: String) {
         let data = try! JSONEncoder().encode(value)
@@ -30,23 +35,31 @@ struct Settings {
 extension Settings {
     var myList: [Video] {
         get {
-            return unarchiveJSON(key: Setting.myList) ?? []
+            return myListQueue.sync {
+                unarchiveJSON(key: Setting.myList) ?? []
+            }
         }
         set {
-            archiveJSON(value: newValue, key: Setting.myList)
+            myListQueue.async(flags: .barrier) { [weak self] in
+                self?.archiveJSON(value: newValue, key: Setting.myList)
+            }
         }
     }
     
     var watchHistory: [WatchHistory] {
         get {
-            return unarchiveJSON(key: Setting.watchHistory) ?? []
+            return watchHistoryQueue.sync {
+                unarchiveJSON(key: Setting.watchHistory) ?? []
+            }
         }
         set {
-            archiveJSON(value: newValue, key: Setting.watchHistory)
+            watchHistoryQueue.async(flags: .barrier) { [weak self] in
+                self?.archiveJSON(value: newValue, key: Setting.watchHistory)
+            }
         }
     }
     
-    mutating func toggleMyList(_ video: Video) -> Bool {
+    func toggleMyList(_ video: Video) -> Bool {
         var myList = self.myList
         
         var added: Bool
@@ -59,10 +72,13 @@ extension Settings {
         }
         
         self.myList = myList
+        
+        NotificationCenter.default.post(name: Settings.myListUpdatedNotification, object: nil)
+        
         return added
     }
     
-    mutating func watched(videoId: Int, episodeNum: Int, timestampSec: Int) {
+    func watched(videoId: Int, episodeNum: Int, timestampSec: Int) {
         var watched = self.watchHistory
         
         if let index = watched.firstIndex(where: { $0.videoId == videoId }) {
@@ -75,6 +91,8 @@ extension Settings {
         }
         
         self.watchHistory = watched.sorted(by: <)
+        
+        NotificationCenter.default.post(name: Settings.watchHistoryUpdatedNotification, object: nil)
     }
 }
 
