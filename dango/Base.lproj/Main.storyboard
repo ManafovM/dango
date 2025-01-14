@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-1053" y="-358"/>
         </scene>
-        <!--ビデオ-->
+        <!--dango-->
         <scene sceneID="Hvp-wL-d9I">
             <objects>
                 <collectionViewController id="KU7-xW-tYH" customClass="VideoCollectionViewController" customModule="dango" customModuleProvider="target" sceneMemberID="viewController">
@@ -46,7 +46,7 @@
                             <outlet property="delegate" destination="KU7-xW-tYH" id="wJ1-tb-ZB2"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="ビデオ" id="FlQ-Sn-1he"/>
+                    <navigationItem key="navigationItem" title="dango" id="FlQ-Sn-1he"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZE8-Iz-877" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -407,7 +407,7 @@
                 <navigationController id="VtC-is-2Ql" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="ライブラリ" image="books.vertical.fill" catalog="system" id="czj-wL-3rj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Qbo-Fw-06M">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <rect key="frame" x="0.0" y="59" width="393" height="104.33333333333334"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
