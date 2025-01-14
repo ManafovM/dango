@@ -90,6 +90,8 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
             videoInfoView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             videoInfoView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
+        
+        videoInfoView.activitiesButtonsView.delegate = self
     }
     
     func setupCastCollectionView() {
@@ -241,5 +243,13 @@ extension VideoDetailsViewController: VideoInfoViewDelegate {
         controller.title = video.title
 
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension VideoDetailsViewController: VideoDetailsButtonsViewDelegate {
+    func shareButtonTapped(_ view: VideoDetailsButtonsView) {
+        let activityController = UIActivityViewController(activityItems: [self.video.title], applicationActivities: nil)
+        activityController.popoverPresentationController?.sourceView = view.shareButton
+        present(activityController, animated: true, completion: nil)
     }
 }

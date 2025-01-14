@@ -58,11 +58,13 @@ class LibraryButtonsView: UIView {
     
     func setupDownloadsButton() {
         downloadsButton = ImageOnTopButton(title: "ダウンロード", backgroundColor: Color.lightBackground.value, imageName: "platter.filled.bottom.and.arrow.down.iphone", onTap: { })
+        downloadsButton.isEnabled = false
         stackView.addArrangedSubview(downloadsButton)
     }
     
     func setupPurchasedButton() {
         purchasedButton = ImageOnTopButton(title: "購入済み", backgroundColor: Color.lightBackground.value, imageName: "bag.fill", onTap: { })
+        purchasedButton.isEnabled = false
         stackView.addArrangedSubview(purchasedButton)
     }
 }

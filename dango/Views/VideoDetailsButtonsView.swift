@@ -8,6 +8,8 @@
 import UIKit
 
 class VideoDetailsButtonsView: UIView {
+    weak var delegate: VideoDetailsButtonsViewDelegate?
+    
     let video: Video
     
     var myListButton: ImageOnTopButton!
@@ -79,9 +81,14 @@ class VideoDetailsButtonsView: UIView {
     }
     
     func setupShareButton() {
-        shareButton = ImageOnTopButton(title: "共有", imageName: "square.and.arrow.up", onTap: {
-            print("共有ボタンが押されました")
+        shareButton = ImageOnTopButton(title: "共有", imageName: "square.and.arrow.up", onTap: { [weak self] in
+            guard let self = self else { return }
+            delegate?.shareButtonTapped(self)
         })
         stackView.addArrangedSubview(shareButton)
     }
+}
+
+protocol VideoDetailsButtonsViewDelegate: AnyObject {
+    func shareButtonTapped(_ view: VideoDetailsButtonsView)
 }

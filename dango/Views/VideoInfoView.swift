@@ -34,6 +34,7 @@ class VideoInfoView: UIView {
     var descriptionLabel = UILabel()
     var playButton = UIButton()
     var episodesButton = UIButton()
+    var activitiesButtonsView: VideoDetailsButtonsView!
     
     var audioPlayer: AVPlayer!
     var videoPlayer: AVPlayer!
@@ -88,7 +89,7 @@ class VideoInfoView: UIView {
         setupDescriptionLabel()
         playButtonSetup()
         episodesButtonSetup()
-        myListRatingShareButtonsSetup()
+        activitiesButtonsSetup()
         setupDivider()
         synopsisLabelSetup()
         setupDivider()
@@ -169,9 +170,9 @@ class VideoInfoView: UIView {
         }
     }
     
-    func myListRatingShareButtonsSetup() {
-        let buttonsView = VideoDetailsButtonsView(video: video)
-        stackView.addArrangedSubview(buttonsView)
+    func activitiesButtonsSetup() {
+        activitiesButtonsView = VideoDetailsButtonsView(video: video)
+        stackView.addArrangedSubview(activitiesButtonsView)
     }
     
     func synopsisLabelSetup() {
