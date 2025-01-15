@@ -58,7 +58,7 @@ class VideoInfoView: UIView {
     
     init(frame: CGRect, video: Video) {
         self.video = video
-        self.episodes = video.episodes
+        self.episodes = video.episodes.sorted(by: <)
         self._currentEpisodeNum = Settings.shared.watchHistory.first(where: { $0.videoId == video.id })?.currentEpisodeNum ?? 0
         super.init(frame: frame)
         
@@ -195,9 +195,12 @@ class VideoInfoView: UIView {
     
     deinit {
         audioPlayer.pause()
+        audioPlayer.replaceCurrentItem(with: nil)
         audioPlayer = nil
         
         videoPlayer.pause()
+        videoPlayer.replaceCurrentItem(with: nil)
+        playerViewController.player = nil
         videoPlayer = nil
     }
 }
@@ -219,19 +222,27 @@ extension VideoInfoView {
         audioPlayer.play()
     }
     
-    func setupVideoPlayer() {
-        let videoUrl: URL
+    func getVideoUrl() -> URL {
         if !episodes.isEmpty {
-            videoUrl = URL(string: episodes[currentEpisodeNum].videoUrl)!
+            return URL(string: episodes[currentEpisodeNum].videoUrl)!
         } else {
-            videoUrl = URL(string: video.videoUrl)!
+            return URL(string: video.videoUrl)!
         }
-        
+    }
+
+    func setupVideoPlayer() {
+        let videoUrl = getVideoUrl()
         videoPlayer = AVPlayer(url: videoUrl)
         
         playerViewController = AVPlayerViewController()
         playerViewController.player = videoPlayer
         playerViewController.delegate = self
+    }
+
+    func updateVideoPlayer() {
+        let videoUrl = getVideoUrl()
+        videoPlayer = AVPlayer(url: videoUrl)
+        playerViewController.player = videoPlayer
     }
     
     @objc func playButtonTapped(_ sender: UIButton) {
@@ -255,6 +266,8 @@ extension VideoInfoView {
 
 extension VideoInfoView: AVPlayerViewControllerDelegate {
     func playerViewController(_ playerViewController: AVPlayerViewController, willEndFullScreenPresentationWithAnimationCoordinator coordinator: any UIViewControllerTransitionCoordinator) {
+        videoPlayer.pause()
+        
         let currentTime = videoPlayer.currentTime().seconds
         Settings.shared.watched(videoId: self.video.id, episodeNum: self.currentEpisodeNum, timestampSec: Int(currentTime))
     }

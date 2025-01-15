@@ -157,6 +157,7 @@ class VideoDetailsViewController: BaseViewController, UIScrollViewDelegate {
     func updateEpisode() {
         videoInfoView.currentEpisodeNum = Settings.shared.watchHistory.first(where: { $0.videoId == video.id })?.currentEpisodeNum ?? 0
         videoInfoView.updatePlayButtonTitle()
+        videoInfoView.updateVideoPlayer()
     }
 }
 
