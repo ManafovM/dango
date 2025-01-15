@@ -10,7 +10,7 @@ import Foundation
 struct WatchHistory: Codable {
     let videoId: Int
     var currentEpisodeNum: Int
-    var currentEpisodeTimestampSec: Int
+    var episodesTimestamps: [Int: Int]
     var lastWatchedDate: Date
 }
 

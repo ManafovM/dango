@@ -231,7 +231,8 @@ extension VideoDetailsViewController: VideoInfoViewDelegate {
             view.audioPlayer.pause()
             view.videoPlayer.play()
             
-            if let timestamp = Settings.shared.watchHistory.first(where: { $0.videoId == self.video.id })?.currentEpisodeTimestampSec {
+            if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == self.video.id }),
+               let timestamp = watchHistory.episodesTimestamps[watchHistory.currentEpisodeNum] {
                 let seekTime = CMTime(seconds: Double(timestamp), preferredTimescale: 600)
                 view.videoPlayer.seek(to: seekTime)
             }

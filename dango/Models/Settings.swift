@@ -83,10 +83,10 @@ extension Settings {
         
         if let index = watched.firstIndex(where: { $0.videoId == videoId }) {
             watched[index].currentEpisodeNum = episodeNum
-            watched[index].currentEpisodeTimestampSec = timestampSec
+            watched[index].episodesTimestamps[episodeNum] = timestampSec
             watched[index].lastWatchedDate = Date.now
         } else {
-            let history = WatchHistory(videoId: videoId, currentEpisodeNum: episodeNum, currentEpisodeTimestampSec: timestampSec, lastWatchedDate: Date.now)
+            let history = WatchHistory(videoId: videoId, currentEpisodeNum: episodeNum, episodesTimestamps: [episodeNum: timestampSec], lastWatchedDate: Date.now)
             watched.append(history)
         }
         

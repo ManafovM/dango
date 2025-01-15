@@ -72,7 +72,8 @@ class EpisodeCollectionViewController: BaseCollectionViewController {
             guard let self else { return }
             videoPlayer.play()
             
-            if let timestamp = Settings.shared.watchHistory.first(where: { $0.videoId == self.currentEpisode.videoId })?.currentEpisodeTimestampSec {
+            if let watchHistory = Settings.shared.watchHistory.first(where: { $0.videoId == self.currentEpisode.videoId }),
+               let timestamp = watchHistory.episodesTimestamps[currentEpisode.number] {
                 let seekTime = CMTime(seconds: Double(timestamp), preferredTimescale: 600)
                 videoPlayer.seek(to: seekTime)
             }
