@@ -4,14 +4,14 @@
 ![Strapi](https://img.shields.io/badge/Strapi-navy?style=flat&logo=strapi)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4.1-green?style=flat&logo=springboot)
 
-* Strapi によるコンテンツ管理
+* Strapi を使用したコンテンツ管理
 * Spring Boot アプリによる HLS ストリーミング
-* 作品名で検索
-* タグ検索
+* 作品名での検索
+* タグによる検索
 * 視聴履歴
 * マイリスト
-* エピゾードのタイムスタンプを保存
-* 動画詳細画面でオープニング再生
+* エピソードのタイムスタンプの保存
+* 動画詳細画面でのオープニング再生
 * 簡易共有機能
 
 ## ビデオ画面
