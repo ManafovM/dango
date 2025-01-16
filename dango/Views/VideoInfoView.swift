@@ -140,7 +140,7 @@ class VideoInfoView: UIView {
     func episodesButtonSetup() {
         if !episodes.isEmpty {
             var config = UIButton.Configuration.filled()
-            config.title = "エピゾードを選択(全\(episodes.count)話)"
+            config.title = "エピソードを選択(全\(episodes.count)話)"
             config.image = UIImage(systemName: "rectangle.stack")
             config.imagePadding = 8.0
             config.baseForegroundColor = .white
