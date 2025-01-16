@@ -36,13 +36,13 @@
       <td align="center">
         <div>
           <p>動画詳細２</p>
-          <img src="https://github.com/user-attachments/assets/81b07646-f241-4d3a-bdcf-456dd4988735" alt="IMG_3644" width="250">
+          <img src="https://github.com/user-attachments/assets/6d080b7c-2b4e-468b-b637-2bcc673c2977" alt="IMG_3650" width="250">
         </div>
       </td>
       <td align="center">
         <div>
-          <p>エピゾード選択</p>
-          <img src="https://github.com/user-attachments/assets/85f36ae7-c493-4e84-8373-2a8725a8d634" alt="IMG_3645" width="250">
+          <p>エピソード選択</p>
+          <img src="https://github.com/user-attachments/assets/9931eb3d-cc5a-4ddc-9716-6b170fa85b5a" alt="IMG_3649" width="250">
         </div>
       </td>
     </tr>
