@@ -28,7 +28,7 @@
       <td align="center">
         <div>
           <p>動画詳細１</p>
-          <img src="https://github.com/user-attachments/assets/b8f7b959-4c3b-47de-ac37-f65482551158" alt="IMG_3643" width="250">
+          <img src="https://github.com/user-attachments/assets/9931eb3d-cc5a-4ddc-9716-6b170fa85b5a" alt="IMG_3649" width="250">
         </div>
       </td>
     </tr>
@@ -42,7 +42,7 @@
       <td align="center">
         <div>
           <p>エピソード選択</p>
-          <img src="https://github.com/user-attachments/assets/9931eb3d-cc5a-4ddc-9716-6b170fa85b5a" alt="IMG_3649" width="250">
+          <img src="https://github.com/user-attachments/assets/85f36ae7-c493-4e84-8373-2a8725a8d634" alt="IMG_3645" width="250">
         </div>
       </td>
     </tr>
